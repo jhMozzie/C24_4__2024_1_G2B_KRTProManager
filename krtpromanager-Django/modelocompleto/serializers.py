@@ -35,6 +35,9 @@ class CategoriaSerializer(serializers.ModelSerializer):
         
 
 class CompetidorSerializer(serializers.ModelSerializer):
+    #aca solo lo hago para poder hacer que en la vista poder ver los nombres
+    dojo_nombre = serializers.ReadOnlyField(source='dojo.nombreDojo')
+
     class Meta:
         model = Competidor
         fields = '__all__'

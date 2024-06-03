@@ -2,25 +2,21 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UserSerializer,CampeonatoSerializer,CategoriaSerializer,CompetidorSerializer,SansionSerializer,DojoSerializer
-#con esto genero el token
-from rest_framework.authtoken.models import Token
 #para el status
 from rest_framework import status
 
-from django.shortcuts import get_object_or_404
 
 from .models import Usuario,Campeonato,Categoria,Competidor,Sancion,Dojo
 
 
-#para validar las autentificaciones
-from rest_framework.decorators import authentication_classes, permission_classes
+
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 # Create your views here.
 ################
 from rest_framework import viewsets
 
 #agregado por mi como extra 
-from django.contrib.auth.hashers import make_password
+
 from rest_framework_simplejwt.tokens import RefreshToken
 #########
 # Create your views here.

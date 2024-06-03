@@ -1,15 +1,16 @@
 import { useForm } from "react-hook-form";
-import { loginPost } from "../../api/login_register";
+import { loginPost } from "../../services/login_register";
 import toast, { Toaster } from 'react-hot-toast';
 import {useAuthStore} from "../../store/auth";
-// import { useEffect,useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 interface UserLogin{
   username: string;
   password: string;
 }
 export const Form_login = () => {
-
+  const navigate = useNavigate()
   //llamo a mi estado
   const cambiarestado = useAuthStore(state => state.setToken)
   const estadoactual = useAuthStore(state => state.token)
@@ -21,17 +22,10 @@ export const Form_login = () => {
     toast.success('Login exitoso');
     cambiarestado(datos.token);
     reset();
+    navigate("/aver")
 })
 
-  // Llamar a CompetidoresObtener y almacenar el resultado en una variable de estado
-  // const [competidores, setCompetidores] = useState<any>(null);
-  // useEffect(() => {
-  //   const obtenerCompetidores = async () => {
-  //     const datos = await CompetidoresObtener();
-  //     setCompetidores(datos);
-  //   };
-  //   obtenerCompetidores();
-  // }, []);
+
 
 return (
   <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -95,22 +89,6 @@ return (
         </button>
       </form>
       <h1>{estadoactual}</h1>
-              {/* Mostrar los competidores obtenidos
-              {competidores && (
-          <div>
-            <h2>Competidores:</h2>
-            <ul>
-              {competidores.map((competidor: any, index: number) => (
-                        <li key={competidor.id}>
-                        <p>Nombre: {competidor.nombre} {competidor.apellido}</p>
-                        <p>Edad: {competidor.edad}</p>
-                        <p>Género: {competidor.genero}</p>
-                        <p>Dojo: {competidor.dojo}</p>
-                      </li>
-              ))}
-            </ul> 
-          </div>
-        )} */}
     </div>
   </div>
 );
