@@ -11,22 +11,24 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/usuario")
+@RequestMapping("/api/v1/usuarios")
 public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
     @GetMapping()
-    public List<Usuario> getAllUsuarios(){
-        return usuarioService.getAllUsuarios();
+    public ResponseEntity<List<Usuario>> getAllUsuarios()
+    {
+        List<Usuario> usuarios = usuarioService.getAllUsuarios();
+        return ResponseEntity.ok(usuarios);
+
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable("id") Long id){
-        Optional<Usuario> usuarioById = usuarioService.getUsuarioById(id);
-        return usuarioById.map(ResponseEntity::ok).orElseGet(
-                () -> ResponseEntity.notFound().build()
-        );
+    // Obtener un usuario por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
+        Optional<Usuario> usuario = usuarioService.getUsuarioById(id);
+        return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -35,17 +37,29 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createUsuario);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Usuario> updatedUsuario(@PathVariable("id") Long id, @RequestBody Usuario usuario){
-        Optional<Usuario> updateUsuario = usuarioService.updateUsuario(id, usuario);
-        return updateUsuario.map(ResponseEntity::ok).orElseGet(
-                () -> ResponseEntity.noContent().build()
-        );
+    // Actualizar un usuario existente
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
+        Optional<Usuario> updatedUsuario = usuarioService.updateUsuario(id, usuario);
+        return updatedUsuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deletedProductById(@PathVariable("id") Long id){
+    // Eliminar un usuario
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         boolean deleted = usuarioService.deleteUsuario(id);
-        return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Dojo Methods
+    // Crear un nuevo usuario con dojos
+    @PostMapping("/with-dojos")
+    public ResponseEntity<Usuario> createUsuarioWithDojos(@RequestBody Usuario usuario) {
+        Usuario createdUsuario = usuarioService.saveUsuarioWithDojos(usuario);
+        return ResponseEntity.ok(createdUsuario);
     }
 }
