@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "dojo")
@@ -18,5 +20,9 @@ public class Dojo {
     @JoinColumn(name = "usuario_id")
     @JsonIgnore
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "dojo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Competidor> competidores;
 
 }
