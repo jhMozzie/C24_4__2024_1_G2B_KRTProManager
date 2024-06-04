@@ -3,8 +3,6 @@ package com.krtpromanager.krtpromanagerSpringBoot.controller;
 import com.krtpromanager.krtpromanagerSpringBoot.models.Dojo;
 import com.krtpromanager.krtpromanagerSpringBoot.services.DojoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
