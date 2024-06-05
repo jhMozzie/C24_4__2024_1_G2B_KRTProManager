@@ -5,6 +5,9 @@ import com.krtpromanager.krtpromanagerSpringBoot.models.Usuario;
 import com.krtpromanager.krtpromanagerSpringBoot.repositories.DojoRepository;
 import com.krtpromanager.krtpromanagerSpringBoot.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -65,4 +68,9 @@ public class UsuarioService {
     }
 
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return usuarioRepository.findByUsername(username)
+                .orElseThrow(()->new UsernameNotFoundException(("Usuario no encontrado")));
+    }
 }
