@@ -3,4 +3,5 @@ export interface Dojos {
     nombreDojo: string;
     senseiDojo: string;
     Usuario:    number;
+    usuario_nombre?: string;
 }

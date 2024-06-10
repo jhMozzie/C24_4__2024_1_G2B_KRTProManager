@@ -8,6 +8,7 @@ import { LayoutDashboard, StickyNote, Layers, Flag, Calendar, LifeBuoy, Settings
 import { CrudCompetidores } from './pages/CrudCompetidores.tsx';
 import { RegistrarForm } from './pages/RegistrarForm.tsx';
 import { CrudUsuarios } from './pages/CrudUsuarios.tsx';
+import { CrudDojos } from './pages/CrudDojos.tsx';
 
 const App = () => {
   const location = useLocation();
@@ -30,6 +31,7 @@ const App = () => {
         <SidebarItem icon={<LifeBuoy size={20} />} text="Help" to="/help" />
         <SidebarItem icon={<LifeBuoy size={20} />} text="Registrar" to="/register" />
         <SidebarItem icon={<LifeBuoy size={20} />} text="Usuarios" to="/usuario" />
+        <SidebarItem icon={<LifeBuoy size={20} />} text="Dojos" to="/dojos" />
       </Sidebar>
       <main className="flex-1 p-4">
         <Routes>
@@ -41,6 +43,7 @@ const App = () => {
             <Route path="/competidores" element={<CrudCompetidores /> } />
             <Route path="/register" element={<RegistrarForm /> } />
             <Route path="/usuario" element={<CrudUsuarios /> } />
+            <Route path="/dojos" element={<CrudDojos /> } />
           </Route>
           <Route path="/dashboard" element={<div>Dashboard Page</div>} />
           <Route path="/projects" element={<div>Projects Page</div>} />
