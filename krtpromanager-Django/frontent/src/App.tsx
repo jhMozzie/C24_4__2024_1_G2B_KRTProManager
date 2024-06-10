@@ -7,6 +7,7 @@ import Sidebar, { SidebarItem } from "./components/Sidebar";
 import { LayoutDashboard, StickyNote, Layers, Flag, Calendar, LifeBuoy, Settings, PersonStanding } from "lucide-react";
 import { CrudCompetidores } from './pages/CrudCompetidores.tsx';
 import { RegistrarForm } from './pages/RegistrarForm.tsx';
+import { CrudUsuarios } from './pages/CrudUsuarios.tsx';
 
 const App = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const App = () => {
         <SidebarItem icon={<Settings size={20} />} text="Settings" to="/settings" />
         <SidebarItem icon={<LifeBuoy size={20} />} text="Help" to="/help" />
         <SidebarItem icon={<LifeBuoy size={20} />} text="Registrar" to="/register" />
+        <SidebarItem icon={<LifeBuoy size={20} />} text="Usuarios" to="/usuario" />
       </Sidebar>
       <main className="flex-1 p-4">
         <Routes>
@@ -38,6 +40,7 @@ const App = () => {
           <Route element={<ProtectedRoute isAllowed={isAuth} />}>
             <Route path="/competidores" element={<CrudCompetidores /> } />
             <Route path="/register" element={<RegistrarForm /> } />
+            <Route path="/usuario" element={<CrudUsuarios /> } />
           </Route>
           <Route path="/dashboard" element={<div>Dashboard Page</div>} />
           <Route path="/projects" element={<div>Projects Page</div>} />

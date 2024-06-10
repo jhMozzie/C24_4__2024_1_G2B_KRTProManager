@@ -16,7 +16,12 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data['password'] = make_password(validated_data.get('password'))  # Encriptar la contraseña
         user = Usuario.objects.create(**validated_data)
         return user
-
+    
+    def update(self, instance, validated_data):
+        if 'password' in validated_data:
+            validated_data['password'] = make_password(validated_data['password'])
+        return super().update(instance, validated_data)
+    
         
 class CampeonatoSerializer(serializers.ModelSerializer):
     class Meta:

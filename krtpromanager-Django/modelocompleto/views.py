@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from .serializers import UserSerializer,CampeonatoSerializer,CategoriaSerializer,CompetidorSerializer,SansionSerializer,DojoSerializer,DetalleCategoriaCompetidorSerializer,DetalleCampeonatoCategoriaSerializer,DetalleCampeonatoCategoriaCompetidorSerializer
 #para el status
 from rest_framework import status
+#para las acciones
+from rest_framework.decorators import action
 
 
 from .models import Usuario,Campeonato,Categoria,Competidor,Sancion,Dojo,DetalleCategoriaCompetidor,DetalleCampeonatoCategoria,DetalleCampeonatoCategoriaCompetidor
@@ -20,6 +22,38 @@ from rest_framework import viewsets
 from rest_framework_simplejwt.tokens import RefreshToken
 #########
 # Create your views here.
+
+#crud crear 
+class UsuarioViewSet(viewsets.ModelViewSet):
+    queryset = Usuario.objects.all()
+    serializer_class = UserSerializer
+
+    @action(detail=True, methods=['post'])
+    def set_password(self, request, pk=None):
+        user = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user.set_password(serializer.validated_data['password'])
+            user.save()
+            return Response({'status': 'password set'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def list(self, request, *args, **kwargs):
+        """
+        List all users but do not include the password in the response.
+        """
+        response = super().list(request, *args, **kwargs)
+        for user in response.data:
+            user['password'] = '********'  # Mask the password in the response
+        return response
+
+    def retrieve(self, request, *args, **kwargs):
+        """
+        Retrieve a user but do not include the password in the response.
+        """
+        response = super().retrieve(request, *args, **kwargs)
+        response.data['password'] = '********'  # Mask the password in the response
+        return response
 
 ##añadiendo el crear 
 @api_view(['POST'])
