@@ -5,3 +5,4 @@ export * from './register';
 export * from './usuario';
 export * from './campeonato';
 export * from './Categoria';
+export * from './DetalleCampeonatoCategoria';

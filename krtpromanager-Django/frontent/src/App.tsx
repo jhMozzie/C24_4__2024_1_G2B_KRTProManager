@@ -11,6 +11,7 @@ import { CrudUsuarios } from './pages/CrudUsuarios.tsx';
 import { CrudDojos } from './pages/CrudDojos.tsx';
 import { CrudCampeonatos } from './pages/CrudCampeonatos.tsx';
 import { CrudCategorias } from './pages/CrudCategorias.tsx';
+import { CrudDetalleCampeonatoCategoria } from './pages/CrudCampeonatoCategoria.tsx';
 
 const App = () => {
   const location = useLocation();
@@ -36,6 +37,7 @@ const App = () => {
         <SidebarItem icon={<LifeBuoy size={20} />} text="Dojos" to="/dojos" />
         <SidebarItem icon={<LifeBuoy size={20} />} text="Campeonatos" to="/campeonatos" />
         <SidebarItem icon={<LifeBuoy size={20} />} text="Categorias" to="/categorias" />
+        <SidebarItem icon={<LifeBuoy size={20} />} text="Campeonato-Categoria" to="/DetalleCampeonatoCategoria" />
       </Sidebar>
       <main className="flex-1 p-4">
         <Routes>
@@ -50,6 +52,7 @@ const App = () => {
             <Route path="/dojos" element={<CrudDojos /> } />
             <Route path="/campeonatos" element={<CrudCampeonatos /> } />
             <Route path="/categorias" element={<CrudCategorias /> } />
+            <Route path="/DetalleCampeonatoCategoria" element={<CrudDetalleCampeonatoCategoria /> } />
           </Route>
           <Route path="/dashboard" element={<div>Dashboard Page</div>} />
           <Route path="/projects" element={<div>Projects Page</div>} />

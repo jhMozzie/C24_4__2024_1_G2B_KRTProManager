@@ -65,6 +65,14 @@ class DetalleCategoriaCompetidorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DetalleCampeonatoCategoriaSerializer(serializers.ModelSerializer):
+    Campeonato_nombre = serializers.ReadOnlyField(source='Campeonato.nombre')
+    Campeonato_fecha = serializers.ReadOnlyField(source='Campeonato.fecha')
+    Campeonato_local = serializers.ReadOnlyField(source='Campeonato.local')
+    Categoria_nombre = serializers.ReadOnlyField(source='categoria.nombre')
+    Categoria_genero = serializers.ReadOnlyField(source='categoria.genero')
+    Categoria_modelidad = serializers.ReadOnlyField(source='categoria.modalidad')
+    Categoria_grado = serializers.ReadOnlyField(source='categoria.grado')
+
     class Meta:
         model = DetalleCampeonatoCategoria
         fields = '__all__'
