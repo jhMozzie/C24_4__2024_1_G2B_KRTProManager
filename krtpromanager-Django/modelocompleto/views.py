@@ -25,7 +25,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 #crud crear 
 class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset = Usuario.objects.all()
+    queryset = Usuario.objects.exclude(rol='administrador')
     serializer_class = UserSerializer
 
     @action(detail=True, methods=['post'])

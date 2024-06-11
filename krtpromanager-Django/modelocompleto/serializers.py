@@ -24,6 +24,9 @@ class UserSerializer(serializers.ModelSerializer):
     
         
 class CampeonatoSerializer(serializers.ModelSerializer):
+    
+    dojo_nombre = serializers.ReadOnlyField(source='dojo.nombreDojo')
+    
     class Meta:
         model = Campeonato
         fields = '__all__'
