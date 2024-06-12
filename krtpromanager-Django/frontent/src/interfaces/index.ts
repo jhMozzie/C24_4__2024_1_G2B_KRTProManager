@@ -6,3 +6,4 @@ export * from './usuario';
 export * from './campeonato';
 export * from './Categoria';
 export * from './DetalleCampeonatoCategoria';
+export * from './detallecampeonatocompetidorCategoria';

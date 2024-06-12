@@ -60,6 +60,8 @@ class SansionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DetalleCategoriaCompetidorSerializer(serializers.ModelSerializer):
+
+    
     class Meta:
         model = DetalleCategoriaCompetidor
         fields = '__all__'
@@ -78,6 +80,16 @@ class DetalleCampeonatoCategoriaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DetalleCampeonatoCategoriaCompetidorSerializer(serializers.ModelSerializer):
+    Categoria_nombre = serializers.ReadOnlyField(source='categoria_campeonato.categoria.nombre')
+    Categoria_genero = serializers.ReadOnlyField(source='categoria_campeonato.categoria.genero')
+    Categoria_modelidad = serializers.ReadOnlyField(source='categoria_campeonato.categoria.modalidad')
+    Categoria_grado = serializers.ReadOnlyField(source='categoria_campeonato.categoria.grado')
+    Campeonato_nombre = serializers.ReadOnlyField(source='categoria_campeonato.Campeonato.nombre')
+    Campeonato_fecha = serializers.ReadOnlyField(source='categoria_campeonato.Campeonato.fecha')
+    Competidor_nombre = serializers.ReadOnlyField(source='competidor.nombre')
+    Competidor_apellido = serializers.ReadOnlyField(source='competidor.apellido')
+    Competidor_dojo_nombre = serializers.ReadOnlyField(source='competidor.dojo.nombreDojo')
+    
     class Meta:
         model = DetalleCampeonatoCategoriaCompetidor
         fields = '__all__'

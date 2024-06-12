@@ -13,7 +13,7 @@ router.register(r'sanciones', SancionViewSet)
 router.register(r'dojos', DojoViewSet)
 router.register(r'detallecategoriacompetidor', DetalleCategoriaCompetidorViewSet)
 router.register(r'detallecampeonatocategoria', DetalleCampeonatoCategoriaViewSet)
-router.register(r'detallecampeonatocompetidor', DetalleCampeonatoCategoriaCompetidorViewSet)
+router.register(r'detallecampeonatocompetidorCategoria', DetalleCampeonatoCategoriaCompetidorViewSet)
 
 
 urlpatterns = [
