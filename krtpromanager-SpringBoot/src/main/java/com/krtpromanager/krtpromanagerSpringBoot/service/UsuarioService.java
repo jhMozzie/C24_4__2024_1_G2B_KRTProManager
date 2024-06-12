@@ -5,7 +5,6 @@ import com.krtpromanager.krtpromanagerSpringBoot.dto.ReqRes;
 import com.krtpromanager.krtpromanagerSpringBoot.model.Rol;
 import com.krtpromanager.krtpromanagerSpringBoot.model.Usuario;
 import com.krtpromanager.krtpromanagerSpringBoot.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,14 +17,16 @@ import java.util.Optional;
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private JwtUtils jwtUtils;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    public UsuarioService(JwtUtils jwtUtils, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+        this.jwtUtils = jwtUtils;
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+    }
 
     public ReqRes refreshToken(ReqRes refreshTokenRequest){
         ReqRes response = new ReqRes();
@@ -58,7 +59,6 @@ public class UsuarioService {
             usuario.setUsername(registrationRequest.getUsername());
             usuario.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 
-            // Asegúrate de que registrationRequest.getRol() es una cadena que coincide con "ADMIN" o "SENSEI"
             usuario.setRol(Rol.valueOf(registrationRequest.getRol()));
 
             Usuario usuarioResult = usuarioRepository.save(usuario);
@@ -81,7 +81,7 @@ public class UsuarioService {
         ReqRes response = new ReqRes();
         try{
             authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
+                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                             loginRequest.getPassword()));
 
             var usuario = usuarioRepository.findByUsername(loginRequest.getUsername()).orElseThrow();
@@ -188,8 +188,18 @@ public class UsuarioService {
             Optional<Usuario> usuarioOptional = usuarioRepository.findByUsername(username);
             if(usuarioOptional.isPresent()){
                 response.setUsuario(usuarioOptional.get());
-
+                response.setStatusCode(200);
+                response.setMessage("Successful");
             }
+            else{
+                response.setStatusCode(500);
+                response.setMessage("User not found profile");
+            }
+        } catch(Exception e){
+            response.setStatusCode(500);
+            response.setMessage("Erro occurred while getting user info: " + e.getMessage());
         }
+
+        return response;
     }
 }

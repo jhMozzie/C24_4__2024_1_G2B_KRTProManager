@@ -2,7 +2,6 @@ package com.krtpromanager.krtpromanagerSpringBoot.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.krtpromanager.krtpromanagerSpringBoot.model.Rol;
 import com.krtpromanager.krtpromanagerSpringBoot.model.Usuario;
 import lombok.Data;
 
@@ -23,8 +22,8 @@ public class ReqRes {
     private String email;
     private String username;
     private String password;
-    private Usuario usuario;
     private String rol;
+    private Usuario usuario;
     private List<Usuario> usuarioList;
 
 }
