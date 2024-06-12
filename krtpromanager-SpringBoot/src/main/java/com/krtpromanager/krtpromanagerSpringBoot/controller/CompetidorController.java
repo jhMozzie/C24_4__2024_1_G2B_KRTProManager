@@ -1,8 +1,7 @@
 package com.krtpromanager.krtpromanagerSpringBoot.controller;
 
-import com.krtpromanager.krtpromanagerSpringBoot.models.Competidor;
-import com.krtpromanager.krtpromanagerSpringBoot.models.Dojo;
-import com.krtpromanager.krtpromanagerSpringBoot.services.CompetidorService;
+import com.krtpromanager.krtpromanagerSpringBoot.model.Competidor;
+import com.krtpromanager.krtpromanagerSpringBoot.service.CompetidorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

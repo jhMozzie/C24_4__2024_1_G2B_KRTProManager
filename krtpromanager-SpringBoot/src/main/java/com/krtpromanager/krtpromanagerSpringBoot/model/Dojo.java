@@ -1,4 +1,4 @@
-package com.krtpromanager.krtpromanagerSpringBoot.models;
+package com.krtpromanager.krtpromanagerSpringBoot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

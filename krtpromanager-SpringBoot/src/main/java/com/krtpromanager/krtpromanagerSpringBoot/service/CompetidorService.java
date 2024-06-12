@@ -1,7 +1,7 @@
-package com.krtpromanager.krtpromanagerSpringBoot.services;
+package com.krtpromanager.krtpromanagerSpringBoot.service;
 
-import com.krtpromanager.krtpromanagerSpringBoot.models.Competidor;
-import com.krtpromanager.krtpromanagerSpringBoot.repositories.CompetidorRepository;
+import com.krtpromanager.krtpromanagerSpringBoot.model.Competidor;
+import com.krtpromanager.krtpromanagerSpringBoot.repository.CompetidorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
-package com.krtpromanager.krtpromanagerSpringBoot.services;
+package com.krtpromanager.krtpromanagerSpringBoot.service;
 
-import com.krtpromanager.krtpromanagerSpringBoot.models.Dojo;
-import com.krtpromanager.krtpromanagerSpringBoot.repositories.DojoRepository;
+import com.krtpromanager.krtpromanagerSpringBoot.model.Dojo;
+import com.krtpromanager.krtpromanagerSpringBoot.repository.DojoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
