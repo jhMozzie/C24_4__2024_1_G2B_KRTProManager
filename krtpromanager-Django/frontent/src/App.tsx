@@ -13,6 +13,7 @@ import { CrudCampeonatos } from './pages/CrudCampeonatos.tsx';
 import { CrudCategorias } from './pages/CrudCategorias.tsx';
 import { CrudDetalleCampeonatoCategoria } from './pages/CrudCampeonatoCategoria.tsx';
 import { CrudCampeonatoCompetidorCategoria } from './pages/CrudCampeonatoCompetidorCategoria.tsx';
+import { CrudCategoriaCompetidor } from './pages/CrudCategoriaCompetidor.tsx';
 
 const App = () => {
   const location = useLocation();
@@ -40,6 +41,7 @@ const App = () => {
         <SidebarItem icon={<LifeBuoy size={20} />} text="Categorias" to="/categorias" />
         <SidebarItem icon={<LifeBuoy size={20} />} text="Campeonato-Categoria" to="/DetalleCampeonatoCategoria" />
         <SidebarItem icon={<LifeBuoy size={20} />} text="Campeonato-Competidor-Categoria" to="/DetalleCampeonatoCompetidorCategoria" />
+        <SidebarItem icon={<LifeBuoy size={20} />} text="Categoria-Competidor" to="/DetalleCategoriaCompetidor" />
       </Sidebar>
       <main className="flex-1 p-4">
         <Routes>
@@ -56,6 +58,7 @@ const App = () => {
             <Route path="/categorias" element={<CrudCategorias /> } />
             <Route path="/DetalleCampeonatoCategoria" element={<CrudDetalleCampeonatoCategoria /> } />
             <Route path="/DetalleCampeonatoCompetidorCategoria" element={<CrudCampeonatoCompetidorCategoria /> } />
+            <Route path="/DetalleCategoriaCompetidor" element={<CrudCategoriaCompetidor /> } />
           </Route>
           <Route path="/dashboard" element={<div>Dashboard Page</div>} />
           <Route path="/projects" element={<div>Projects Page</div>} />
