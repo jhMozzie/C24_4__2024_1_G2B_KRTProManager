@@ -8,3 +8,4 @@ export * from './Categoria';
 export * from './DetalleCampeonatoCategoria';
 export * from './detallecampeonatocompetidorCategoria';
 export * from './DetalleCategoriaCompetidor';
+export * from './Sanciones';

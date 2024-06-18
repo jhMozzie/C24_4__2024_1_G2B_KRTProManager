@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { DetalleCampeonatoCategoria } from "../interfaces/index";
 import { useQuery } from "@tanstack/react-query";
@@ -10,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 export const CrudDetalleCampeonatoCategoria = () => {
   const [isFormVisible, setFormVisible] = useState(false);
   const [currentDetalle, setCurrentDetalle] = useState<DetalleCampeonatoCategoria | undefined>(undefined);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const { data: detallesData, error, isLoading } = useQuery<DetalleCampeonatoCategoria[]>({
     queryKey: ["detallecampeonatocategoria"],
@@ -27,6 +27,18 @@ export const CrudDetalleCampeonatoCategoria = () => {
     setCurrentDetalle(detalle);
     setFormVisible(true);
   };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredDetalles = detallesData
+    ? detallesData.filter((detalle) =>
+        `${detalle.Campeonato_nombre} ${detalle.Campeonato_fecha} ${detalle.Campeonato_local} ${detalle.Categoria_nombre} ${detalle.Categoria_genero} ${detalle.Categoria_modelidad} ${detalle.Categoria_grado}`
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   if (isLoading) {
     return <div>Cargando...</div>;
@@ -58,6 +70,15 @@ export const CrudDetalleCampeonatoCategoria = () => {
         >
           Crear Detalle
         </button>
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Buscar"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="px-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          />
+        </div>
       </div>
 
       {isFormVisible && (
@@ -75,7 +96,7 @@ export const CrudDetalleCampeonatoCategoria = () => {
             </tr>
           </thead>
           <tbody>
-            {detallesData.map((detalle) => (
+            {filteredDetalles.map((detalle) => (
               <tr key={detalle.id} className="even:bg-gray-100 odd:bg-white">
                 <td className="border px-4 py-2">{detalle.id}</td>
                 <td className="border px-4 py-2">{`${detalle.Campeonato_nombre} ${detalle.Campeonato_fecha} ${detalle.Campeonato_local}`}</td>

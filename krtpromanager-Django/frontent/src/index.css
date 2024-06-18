@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Añadir esto en tu CSS */
+.fixed-sidebar {
+    position: fixed;
+  }
+  

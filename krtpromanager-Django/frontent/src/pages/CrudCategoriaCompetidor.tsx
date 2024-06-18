@@ -3,12 +3,13 @@ import { DetalleCategoriaCompetidor } from "../interfaces/index";
 import { useQuery } from "@tanstack/react-query";
 import { detallecategoriacompetidorObtener, detallecategoriacompetidorObtenerid } from "../services/CategoriaCompetidor/api";
 import { useDeleteDetalleCategoriaCompetidor } from "../services/CategoriaCompetidor/mutations";
-import { DetalleCategoriaCompetidorForm } from "./../components/detallecategoriacompetidor/DetalleCategoriaCompetidorForm";
+import { DetalleCategoriaCompetidorForm } from "../components/detallecategoriacompetidor/DetalleCategoriaCompetidorForm";
 import { Toaster } from "react-hot-toast";
 
 export const CrudCategoriaCompetidor = () => {
   const [isFormVisible, setFormVisible] = useState(false);
   const [currentDetalle, setCurrentDetalle] = useState<DetalleCategoriaCompetidor | undefined>(undefined);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const { data: detallesData, error, isLoading } = useQuery<DetalleCategoriaCompetidor[]>({
     queryKey: ["detallecategoriacompetidor"],
@@ -26,6 +27,18 @@ export const CrudCategoriaCompetidor = () => {
     setCurrentDetalle(detalle);
     setFormVisible(true);
   };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredDetalles = detallesData
+    ? detallesData.filter((detalle) =>
+        `${detalle.Competidor_nombre} ${detalle.Competidor_apellido} ${detalle.Competidor_dojo_nombre} ${detalle.Categoria_nombre} ${detalle.Categoria_genero} ${detalle.Categoria_modelidad} ${detalle.Categoria_grado}`
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   if (isLoading) {
     return <div>Cargando...</div>;
@@ -57,6 +70,15 @@ export const CrudCategoriaCompetidor = () => {
         >
           Crear Detalle
         </button>
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Buscar"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="px-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          />
+        </div>
       </div>
 
       {isFormVisible && (
@@ -74,7 +96,7 @@ export const CrudCategoriaCompetidor = () => {
             </tr>
           </thead>
           <tbody>
-            {detallesData.map((detalle) => (
+            {filteredDetalles.map((detalle) => (
               <tr key={detalle.id} className="even:bg-gray-100 odd:bg-white">
                 <td className="border px-4 py-2">{detalle.id}</td>
                 <td className="border px-4 py-2">{`${detalle.Competidor_nombre} ${detalle.Competidor_apellido} ${detalle.Competidor_dojo_nombre}`}</td>
