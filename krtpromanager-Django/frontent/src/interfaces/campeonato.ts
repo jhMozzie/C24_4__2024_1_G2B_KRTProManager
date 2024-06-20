@@ -1,3 +1,4 @@
+
 export interface Campeonato {
     id:          number;
     dojo_nombre?: string;
@@ -6,6 +7,7 @@ export interface Campeonato {
     local:       string;
     provincia:   string;
     distrito:    string;
-    url_bases:   null | File;
+    url_bases:   any;
     dojo:        number| [];
+    imagen:      any ;
 }

@@ -29,7 +29,7 @@ export const DetalleCampeonatoCategoriaForm = ({ onClose, existingDetalle }: Det
 
   useEffect(() => {
     if (existingDetalle) {
-      setValue('Campeonato', existingDetalle.Campeonato);
+      setValue('campeonato', existingDetalle.campeonato);
       setValue('categoria', existingDetalle.categoria);
     }
   }, [existingDetalle, setValue]);
@@ -50,7 +50,7 @@ export const DetalleCampeonatoCategoriaForm = ({ onClose, existingDetalle }: Det
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label htmlFor="Campeonato" className="block text-sm font-medium text-gray-700">Campeonato</label>
-            <select {...register('Campeonato', { required: true })} className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <select {...register('campeonato', { required: true })} className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
               <option value="">Selecciona un campeonato</option>
               {campeonatosData?.map((campeonato) => (
                 <option key={campeonato.id} value={campeonato.id}>
@@ -58,7 +58,7 @@ export const DetalleCampeonatoCategoriaForm = ({ onClose, existingDetalle }: Det
                 </option>
               ))}
             </select>
-            {errors.Campeonato && <span className="text-red-500">Este campo es requerido</span>}
+            {errors.campeonato && <span className="text-red-500">Este campo es requerido</span>}
           </div>
           <div className="mb-4">
             <label htmlFor="categoria" className="block text-sm font-medium text-gray-700">Categoría</label>

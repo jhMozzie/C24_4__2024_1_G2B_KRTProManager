@@ -26,7 +26,7 @@ export const DojoForm = ({ onClose, existingDojo }: DojoFormProps) => {
     if (existingDojo) {
       setValue('nombreDojo', existingDojo.nombreDojo);
       setValue('senseiDojo', existingDojo.senseiDojo);
-      setValue('Usuario', existingDojo.Usuario);
+      setValue('usuario', existingDojo.usuario);
     }
   }, [existingDojo, setValue]);
 
@@ -72,7 +72,7 @@ export const DojoForm = ({ onClose, existingDojo }: DojoFormProps) => {
           <div className="mb-4">
             <label htmlFor="Usuario" className="block text-sm font-medium text-gray-700">Usuario</label>
             <select 
-              {...register('Usuario', { required: true })} 
+              {...register('usuario', { required: true })} 
               className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             >
               <option value="">Selecciona un usuario</option>
@@ -82,7 +82,7 @@ export const DojoForm = ({ onClose, existingDojo }: DojoFormProps) => {
                 </option>
               ))}
             </select>
-            {errors.Usuario && (
+            {errors.usuario && (
               <span className="text-red-500">Este campo es requerido</span>
             )}
           </div>

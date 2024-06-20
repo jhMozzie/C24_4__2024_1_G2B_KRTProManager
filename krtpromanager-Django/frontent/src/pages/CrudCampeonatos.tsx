@@ -1,29 +1,21 @@
 import { useState } from "react";
-// Importando interfaces
 import { Campeonato } from "../interfaces/index";
-// Importando el API
 import { campeonatosObtener, campeonatosObtenerid } from "../services/Campeonato/api";
-// Importando React Query
 import { useQuery } from '@tanstack/react-query';
 import { useDeleteCampeonato } from "../services/Campeonato/mutations";
-// Componente de formulario
 import { CampeonatoForm } from "../components/campeonato/CampeonatoForm";
-// Haciendo el toaster
 import { Toaster } from "react-hot-toast";
-// Iconos
 import { XCircle } from 'lucide-react';
 
 export const CrudCampeonatos = () => {
   const [isFormVisible, setFormVisible] = useState(false);
   const [currentCampeonato, setCurrentCampeonato] = useState<Campeonato | undefined>(undefined);
 
-  // Usando el query para traer la data
   const { data: campeonatosData, error, isLoading } = useQuery<Campeonato[]>({
     queryKey: ['campeonatos'],
     queryFn: campeonatosObtener,
   });
 
-  // Añadiendo el buscar
   const [searchTerm, setSearchTerm] = useState<string>("");
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -35,15 +27,12 @@ export const CrudCampeonatos = () => {
       )
     : [];
 
-  // Usando el mutate para ejecutar el eliminar
   const deleteCampeonatoMutation = useDeleteCampeonato();
 
-  // Funcionalidad para eliminar, recibe de parámetro el id
   const handleDelete = (id: number) => {
     deleteCampeonatoMutation.mutate(id);
   };
 
-  // Controlando el click para el update, recibe el id para después pasarlo al componente el objeto de campeonato uno solo
   const handleUpdateClick = async (id: number) => {
     const campeonato = await campeonatosObtenerid(id);
     console.log(campeonato);
@@ -110,6 +99,7 @@ export const CrudCampeonatos = () => {
               <th className="border px-4 py-4">Provincia</th>
               <th className="border px-4 py-4">Distrito</th>
               <th className="border px-4 py-4">Dojo</th>
+              <th className="border px-4 py-4">Imagen</th>
               <th className="border px-4 py-4">Acciones</th>
             </tr>
           </thead>
@@ -123,6 +113,12 @@ export const CrudCampeonatos = () => {
                 <td className="border px-4 py-2">{campeonato.provincia}</td>
                 <td className="border px-4 py-2">{campeonato.distrito}</td>
                 <td className="border px-4 py-2">{campeonato.dojo_nombre}</td>
+                <td className="border px-4 py-2">
+                {campeonato.imagen && typeof campeonato.imagen === 'string' ? (
+    <img src={campeonato.imagen} alt={campeonato.nombre} className="w-16 h-16 object-cover mx-auto" />
+) : null}
+
+                </td>
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => handleUpdateClick(campeonato.id)}
@@ -144,4 +140,4 @@ export const CrudCampeonatos = () => {
       </div>
     </div>
   );
-}
+};

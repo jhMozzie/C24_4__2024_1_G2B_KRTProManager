@@ -7,6 +7,6 @@ export interface DetalleCampeonatoCategoria {
     Categoria_genero:    string;
     Categoria_modelidad: string;
     Categoria_grado:     string;
-    Campeonato:          number;
+    campeonato:          number;
     categoria:           number;
 }

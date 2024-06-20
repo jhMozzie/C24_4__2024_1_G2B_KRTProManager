@@ -33,7 +33,7 @@ class CampeonatoSerializer(serializers.ModelSerializer):
 
 class DojoSerializer(serializers.ModelSerializer):
     
-    usuario_nombre = serializers.ReadOnlyField(source='Usuario.nombres')
+    usuario_nombre = serializers.ReadOnlyField(source='usuario.nombres')
     
     class Meta:
         model = Dojo
@@ -77,9 +77,9 @@ class DetalleCategoriaCompetidorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DetalleCampeonatoCategoriaSerializer(serializers.ModelSerializer):
-    Campeonato_nombre = serializers.ReadOnlyField(source='Campeonato.nombre')
-    Campeonato_fecha = serializers.ReadOnlyField(source='Campeonato.fecha')
-    Campeonato_local = serializers.ReadOnlyField(source='Campeonato.local')
+    Campeonato_nombre = serializers.ReadOnlyField(source='campeonato.nombre')
+    Campeonato_fecha = serializers.ReadOnlyField(source='campeonato.fecha')
+    Campeonato_local = serializers.ReadOnlyField(source='campeonato.local')
     Categoria_nombre = serializers.ReadOnlyField(source='categoria.nombre')
     Categoria_genero = serializers.ReadOnlyField(source='categoria.genero')
     Categoria_modelidad = serializers.ReadOnlyField(source='categoria.modalidad')

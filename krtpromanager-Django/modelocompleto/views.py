@@ -22,6 +22,7 @@ from rest_framework import viewsets
 from rest_framework_simplejwt.tokens import RefreshToken
 #########
 # Create your views here.
+from rest_framework.parsers import MultiPartParser, FormParser
 
 #crud crear 
 class UsuarioViewSet(viewsets.ModelViewSet):
@@ -107,9 +108,18 @@ class DojoViewSet(viewsets.ModelViewSet):
     serializer_class = DojoSerializer
 
 class CampeonatoViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated,IsAdminUser]
     queryset = Campeonato.objects.all()
     serializer_class = CampeonatoSerializer
+    parser_classes = (MultiPartParser, FormParser)
+
+    def perform_create(self, serializer):
+        print(self.request.data)  # Debug: Print received data
+        serializer.save()
+
+    def perform_update(self, serializer):
+        print(self.request.data)  # Debug: Print received data
+        serializer.save()
+
 
 class CategoriaViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,IsAdminUser]

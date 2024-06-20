@@ -31,6 +31,7 @@ export const CampeonatoForm = ({ onClose, existingCampeonato }: CampeonatoFormPr
       setValue('distrito', existingCampeonato.distrito);
       setValue('url_bases', existingCampeonato.url_bases || null);
       setValue('dojo', existingCampeonato.dojo);
+      setValue('imagen', existingCampeonato.imagen);  
     }
   }, [existingCampeonato, setValue]);
 
@@ -42,12 +43,16 @@ export const CampeonatoForm = ({ onClose, existingCampeonato }: CampeonatoFormPr
     formData.append('provincia', data.provincia);
     formData.append('distrito', data.distrito);
     formData.append('dojo', data.dojo.toString());
-  
-    if (data.url_bases && data.url_bases instanceof File) {
-      formData.append('url_bases', data.url_bases);
+
+    if (data.url_bases && data.url_bases[0] instanceof File) {
+      formData.append('url_bases', data.url_bases[0]);
     }
     
-  
+    if (data.imagen && data.imagen[0] instanceof File) {
+      formData.append('imagen', data.imagen[0]);  
+    }
+    
+
     if (existingCampeonato) {
       formData.append('id', existingCampeonato.id.toString());
       updateCampeonatoMutation.mutate(formData);
@@ -57,12 +62,11 @@ export const CampeonatoForm = ({ onClose, existingCampeonato }: CampeonatoFormPr
     reset();
     onClose();
   };
-  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-        <form onSubmit={handleSubmit(onSubmit) } encType="multipart/form-data">
+        <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
           <div className="mb-4">
             <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">Nombre</label>
             <input type="text" {...register('nombre', { required: true })} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
@@ -91,7 +95,11 @@ export const CampeonatoForm = ({ onClose, existingCampeonato }: CampeonatoFormPr
           <div className="mb-4">
             <label htmlFor="url_bases" className="block text-sm font-medium text-gray-700">URL Bases</label>
             <input type="file" {...register('url_bases')} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" accept=".xlsx, .xls" />
-            </div>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="imagen" className="block text-sm font-medium text-gray-700">Imagen</label>
+            <input type="file" {...register('imagen')} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" accept="image/*" />
+          </div>
           <div className="mb-4">
             <label htmlFor="dojo" className="block text-sm font-medium text-gray-700">Dojo</label>
             <select {...register('dojo', { required: true })} className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
