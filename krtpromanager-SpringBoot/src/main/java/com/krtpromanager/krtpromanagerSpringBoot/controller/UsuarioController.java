@@ -1,51 +1,62 @@
 package com.krtpromanager.krtpromanagerSpringBoot.controller;
 
-import com.krtpromanager.krtpromanagerSpringBoot.models.Usuario;
-import com.krtpromanager.krtpromanagerSpringBoot.services.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.krtpromanager.krtpromanagerSpringBoot.dto.ReqRes;
+import com.krtpromanager.krtpromanagerSpringBoot.model.Usuario;
+import com.krtpromanager.krtpromanagerSpringBoot.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
-@RequestMapping("/api/v1/usuario")
+@RequestMapping()
 public class UsuarioController {
-    @Autowired
-    private UsuarioService usuarioService;
 
-    @GetMapping()
-    public List<Usuario> getAllUsuarios(){
-        return usuarioService.getAllUsuarios();
+    private final UsuarioService usuarioService;
+
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable("id") Long id){
-        Optional<Usuario> usuarioById = usuarioService.getUsuarioById(id);
-        return usuarioById.map(ResponseEntity::ok).orElseGet(
-                () -> ResponseEntity.notFound().build()
-        );
+    @PostMapping("/auth/register")
+    public ResponseEntity<ReqRes> register(@RequestBody ReqRes req){
+        return ResponseEntity.ok(usuarioService.registerUsuario(req));
     }
 
-    @PostMapping
-    public ResponseEntity<Usuario> createdUsuario(@RequestBody Usuario usuario){
-        Usuario createUsuario = usuarioService.createUsuario(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createUsuario);
+    @PostMapping("/auth/login")
+    public ResponseEntity<ReqRes> login(@RequestBody ReqRes req){
+        return ResponseEntity.ok(usuarioService.login(req));
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Usuario> updatedUsuario(@PathVariable("id") Long id, @RequestBody Usuario usuario){
-        Optional<Usuario> updateUsuario = usuarioService.updateUsuario(id, usuario);
-        return updateUsuario.map(ResponseEntity::ok).orElseGet(
-                () -> ResponseEntity.noContent().build()
-        );
+    @PostMapping("/auth/refresh")
+    public ResponseEntity<ReqRes> refreshToken(@RequestBody ReqRes req){
+        return ResponseEntity.ok(usuarioService.refreshToken(req));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deletedProductById(@PathVariable("id") Long id){
-        boolean deleted = usuarioService.deleteUsuario(id);
-        return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+    @PutMapping("/admin/get-all-users")
+    public ResponseEntity<ReqRes> getAllUsers() { return ResponseEntity.ok(usuarioService.getAllUsers());}
+
+    @GetMapping("/admin/get-users/{id}")
+    public ResponseEntity<ReqRes> getUserById(@PathVariable Long id){
+        return ResponseEntity.ok(usuarioService.getUsersById(id));
     }
+
+    @PutMapping("/admin/update/{id}")
+    public ResponseEntity<ReqRes> updateUser(@PathVariable Long id, @RequestBody Usuario usuario){
+        return ResponseEntity.ok(usuarioService.updateUser(id, usuario));
+    }
+
+    @GetMapping("/adminuser/get-profile")
+    public ResponseEntity<ReqRes> getMyProfile(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        ReqRes response = usuarioService.getMyInfo(username);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @DeleteMapping("/admin/delete/{id}")
+    public ResponseEntity<ReqRes> deleteUser(@PathVariable Long id){
+        return ResponseEntity.ok(usuarioService.deleteUser(id));
+    }
+
 }
