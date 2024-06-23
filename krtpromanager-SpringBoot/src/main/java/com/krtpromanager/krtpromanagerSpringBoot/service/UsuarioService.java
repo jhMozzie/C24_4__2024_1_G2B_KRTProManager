@@ -1,7 +1,7 @@
 package com.krtpromanager.krtpromanagerSpringBoot.service;
 
 import com.krtpromanager.krtpromanagerSpringBoot.config.JwtUtils;
-import com.krtpromanager.krtpromanagerSpringBoot.dto.ReqRes;
+import com.krtpromanager.krtpromanagerSpringBoot.dto.UsuarioDto;
 import com.krtpromanager.krtpromanagerSpringBoot.model.Rol;
 import com.krtpromanager.krtpromanagerSpringBoot.model.Usuario;
 import com.krtpromanager.krtpromanagerSpringBoot.repository.UsuarioRepository;
@@ -28,8 +28,8 @@ public class UsuarioService {
         this.authenticationManager = authenticationManager;
     }
 
-    public ReqRes refreshToken(ReqRes refreshTokenRequest){
-        ReqRes response = new ReqRes();
+    public UsuarioDto refreshToken(UsuarioDto refreshTokenRequest){
+        UsuarioDto response = new UsuarioDto();
         try{
             String username = jwtUtils.extractUsername(refreshTokenRequest.getToken());
             Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow();
@@ -49,8 +49,8 @@ public class UsuarioService {
         }
     }
 
-    public ReqRes registerUsuario(ReqRes registrationRequest) {
-        ReqRes response = new ReqRes();
+    public UsuarioDto registerUsuario(UsuarioDto registrationRequest) {
+        UsuarioDto response = new UsuarioDto();
         try {
             Usuario usuario = new Usuario();
             usuario.setNombre(registrationRequest.getNombre());
@@ -77,8 +77,8 @@ public class UsuarioService {
         return response;
     }
 
-    public ReqRes login(ReqRes loginRequest) {
-        ReqRes response = new ReqRes();
+    public UsuarioDto login(UsuarioDto loginRequest) {
+        UsuarioDto response = new UsuarioDto();
         try{
             authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
@@ -100,8 +100,8 @@ public class UsuarioService {
         return response;
     }
 
-    public ReqRes getAllUsers(){
-        ReqRes response = new ReqRes();
+    public UsuarioDto getAllUsers(){
+        UsuarioDto response = new UsuarioDto();
         try{
             List<Usuario> result = usuarioRepository.findAll();
             if(!result.isEmpty()){
@@ -121,8 +121,8 @@ public class UsuarioService {
         }
     }
 
-    public ReqRes getUsersById(Long id){
-        ReqRes response = new ReqRes();
+    public UsuarioDto getUsersById(Long id){
+        UsuarioDto response = new UsuarioDto();
         try{
             Usuario usuarioById = usuarioRepository.findById(id).orElseThrow();
             response.setUsuario(usuarioById);
@@ -135,8 +135,8 @@ public class UsuarioService {
         return response;
     }
 
-    public ReqRes deleteUser(Long id){
-        ReqRes response = new ReqRes();
+    public UsuarioDto deleteUser(Long id){
+        UsuarioDto response = new UsuarioDto();
 
         try{
             Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
@@ -156,8 +156,8 @@ public class UsuarioService {
         return response;
     }
 
-    public ReqRes updateUser(Long id, Usuario updatedUsuario){
-        ReqRes response = new ReqRes();
+    public UsuarioDto updateUser(Long id, Usuario updatedUsuario){
+        UsuarioDto response = new UsuarioDto();
         try{
             Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
             if(usuarioOptional.isPresent()){
@@ -169,10 +169,17 @@ public class UsuarioService {
 
                 if(updatedUsuario.getPassword() != null && !updatedUsuario.getPassword().isEmpty()){
                     existingUsuario.setPassword(passwordEncoder.encode(updatedUsuario.getPassword()));
-                } else {
-                    response.setStatusCode(404);
-                    response.setMessage("User not found for update");
                 }
+
+                Usuario savedUsuario = usuarioRepository.save(existingUsuario);
+
+                response.setUsuario(savedUsuario);
+                response.setStatusCode(200);
+                response.setMessage("User updated successfully");
+
+            } else {
+                response.setStatusCode(404);
+                response.setMessage("User not found for update");
             }
         }catch(Exception e){
             response.setStatusCode(500);
@@ -182,8 +189,8 @@ public class UsuarioService {
         return response;
     }
 
-    public ReqRes getMyInfo(String username){
-        ReqRes response = new ReqRes();
+    public UsuarioDto getMyInfo(String username){
+        UsuarioDto response = new UsuarioDto();
         try{
             Optional<Usuario> usuarioOptional = usuarioRepository.findByUsername(username);
             if(usuarioOptional.isPresent()){
