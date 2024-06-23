@@ -65,6 +65,10 @@ class Usuario(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.usuario_administrador
+    
+    class Meta:
+        db_table = 'Usuario'
+
 
 class Dojo(models.Model):
     nombreDojo = models.CharField(max_length=150,blank=True, null=True)
@@ -91,14 +95,8 @@ class Campeonato(models.Model):
         return self.nombre
 
 class Categoria(models.Model):
-    NOMENCLATURA_CHOICES = (
-        ('A41', 'A41'),
-        ('A42', 'A42'),
-        ('A43', 'A43'),
-        ('B41', 'B41'),
-        ('B42', 'B42'),
-        ('B43', 'B43'),
-    )
+    NOMENCLATURA_CHOICES = [(f'A{i}', f'A{i}') for i in range(1, 51)] + [(f'B{i}', f'B{i}') for i in range(1, 51)]
+
     GENERO_CHOICES = (
         ('Masculino', 'Masculino'),
         ('Femenino', 'Femenino'),
