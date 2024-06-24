@@ -94,7 +94,7 @@ export const CrudCampeonatos = () => {
             <tr className="bg-gray-200">
               <th className="border px-4 py-4">ID</th>
               <th className="border px-4 py-4">Nombre</th>
-              <th className="border px-4 py-4">Fecha</th>
+              <th className="border px-4 py-4">Fecha Y Hora</th>
               <th className="border px-4 py-4">Local</th>
               <th className="border px-4 py-4">Provincia</th>
               <th className="border px-4 py-4">Distrito</th>
@@ -108,8 +108,15 @@ export const CrudCampeonatos = () => {
               <tr key={campeonato.id} className="even:bg-gray-100 odd:bg-white">
                 <td className="border px-4 py-2">{campeonato.id}</td>
                 <td className="border px-4 py-2">{campeonato.nombre}</td>
-                <td className="border px-4 py-2">{new Date(campeonato.fecha).toLocaleDateString()}</td>
-                <td className="border px-4 py-2">{campeonato.local}</td>
+                <td className="border px-4 py-2">{new Date(campeonato.fecha).toLocaleDateString('es-ES', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                  })} {new Date(campeonato.fecha).toLocaleTimeString('es-ES', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </td>                <td className="border px-4 py-2">{campeonato.local}</td>
                 <td className="border px-4 py-2">{campeonato.provincia}</td>
                 <td className="border px-4 py-2">{campeonato.distrito}</td>
                 <td className="border px-4 py-2">{campeonato.dojo_nombre}</td>

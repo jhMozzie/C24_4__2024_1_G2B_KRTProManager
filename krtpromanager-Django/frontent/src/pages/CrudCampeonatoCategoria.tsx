@@ -99,8 +99,15 @@ export const CrudDetalleCampeonatoCategoria = () => {
             {filteredDetalles.map((detalle) => (
               <tr key={detalle.id} className="even:bg-gray-100 odd:bg-white">
                 <td className="border px-4 py-2">{detalle.id}</td>
-                <td className="border px-4 py-2">{`${detalle.Campeonato_nombre} ${detalle.Campeonato_fecha} ${detalle.Campeonato_local}`}</td>
-                <td className="border px-4 py-2">{`${detalle.Categoria_nombre} ${detalle.Categoria_genero} ${detalle.Categoria_modelidad} ${detalle.Categoria_grado}`}</td>
+                <td className="border px-4 py-2">{`${detalle.Campeonato_nombre} ${new Date(detalle.Campeonato_fecha).toLocaleDateString('es-ES', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric'
+                })} ${new Date(detalle.Campeonato_fecha).toLocaleTimeString('es-ES', {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })} ${detalle.Campeonato_local}`}</td>  
+              <td className="border px-4 py-2">{`${detalle.Categoria_nombre} ${detalle.Categoria_genero} ${detalle.Categoria_modelidad} ${detalle.Categoria_grado}`}</td>
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => handleUpdateClick(detalle.id)}

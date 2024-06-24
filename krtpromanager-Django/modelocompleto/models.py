@@ -80,7 +80,7 @@ class Dojo(models.Model):
 
 class Campeonato(models.Model):
     nombre = models.CharField(max_length=100,blank=True, null=True)
-    fecha = models.DateField()
+    fecha = models.DateTimeField()
     local = models.CharField(max_length=100,blank=True, null=True)
     provincia = models.CharField(max_length=100,blank=True, null=True)
     distrito = models.CharField(max_length=100,blank=True, null=True)

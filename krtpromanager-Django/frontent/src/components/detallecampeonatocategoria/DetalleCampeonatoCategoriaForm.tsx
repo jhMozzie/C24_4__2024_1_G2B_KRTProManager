@@ -54,8 +54,8 @@ export const DetalleCampeonatoCategoriaForm = ({ onClose, existingDetalle }: Det
               <option value="">Selecciona un campeonato</option>
               {campeonatosData?.map((campeonato) => (
                 <option key={campeonato.id} value={campeonato.id}>
-                  {`${campeonato.nombre} - ${new Date(campeonato.fecha).toLocaleDateString()} - ${campeonato.local}`}
-                </option>
+                  {`${campeonato.nombre} - ${new Date(campeonato.fecha).toLocaleDateString('es-ES')} - ${campeonato.local}`}
+                  </option>
               ))}
             </select>
             {errors.campeonato && <span className="text-red-500">Este campo es requerido</span>}

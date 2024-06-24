@@ -55,7 +55,14 @@ export const DetalleCampeonatoCompetidorCategoriaForm = ({ onClose, existingDeta
               <option value="">Selecciona una categoría campeonato</option>
               {detalleCampeonatoCategoriaData?.map((categoria) => (
                 <option key={categoria.id} value={categoria.id}>
-                  {`${categoria.Campeonato_nombre} ${new Date(categoria.Campeonato_fecha).toLocaleDateString()} - ${categoria.Categoria_nombre} ${categoria.Categoria_genero} ${categoria.Categoria_modelidad} ${categoria.Categoria_grado}`}
+                  {`${categoria.Campeonato_nombre} ${new Date(categoria.Campeonato_fecha).toLocaleDateString('es-ES', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                  })} ${new Date(categoria.Campeonato_fecha).toLocaleTimeString('es-ES', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })} - ${categoria.Categoria_nombre} ${categoria.Categoria_genero} ${categoria.Categoria_modelidad} ${categoria.Categoria_grado}`}
                 </option>
               ))}
             </select>

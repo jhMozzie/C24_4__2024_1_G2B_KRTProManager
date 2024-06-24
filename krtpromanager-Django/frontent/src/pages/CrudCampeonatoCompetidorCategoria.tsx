@@ -106,7 +106,14 @@ export const CrudCampeonatoCompetidorCategoria = () => {
                 <td className="border px-4 py-2">{detalle.Competidor_dojo_nombre}</td>
                 <td className="border px-4 py-2">{detalle.Categoria_nombre}</td>
                 <td className="border px-4 py-2">{`${detalle.Categoria_genero} - ${detalle.Categoria_modelidad} - ${detalle.Categoria_grado}`}</td>
-                <td className="border px-4 py-2">{`${detalle.Campeonato_nombre} -/- ${new Date(detalle.Campeonato_fecha).toLocaleDateString()} `}</td>
+                <td className="border px-4 py-2">{`${detalle.Campeonato_nombre} -/- ${new Date(detalle.Campeonato_fecha).toLocaleDateString('es-ES', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric'
+                })} ${new Date(detalle.Campeonato_fecha).toLocaleTimeString('es-ES', {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}`}</td>
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => handleUpdateClick(detalle.id)}

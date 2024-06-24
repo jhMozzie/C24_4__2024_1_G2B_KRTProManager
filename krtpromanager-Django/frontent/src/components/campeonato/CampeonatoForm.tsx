@@ -25,7 +25,7 @@ export const CampeonatoForm = ({ onClose, existingCampeonato }: CampeonatoFormPr
   useEffect(() => {
     if (existingCampeonato) {
       setValue('nombre', existingCampeonato.nombre);
-      setValue('fecha', new Date(existingCampeonato.fecha).toISOString().split("T")[0]);
+      setValue('fecha', new Date(existingCampeonato.fecha).toISOString().slice(0, 16));  
       setValue('local', existingCampeonato.local);
       setValue('provincia', existingCampeonato.provincia);
       setValue('distrito', existingCampeonato.distrito);
@@ -38,7 +38,7 @@ export const CampeonatoForm = ({ onClose, existingCampeonato }: CampeonatoFormPr
   const onSubmit = (data: Campeonato) => {
     const formData = new FormData();
     formData.append('nombre', data.nombre);
-    formData.append('fecha', data.fecha);
+    formData.append('fecha', new Date(data.fecha).toISOString());  // Convert to ISO string
     formData.append('local', data.local);
     formData.append('provincia', data.provincia);
     formData.append('distrito', data.distrito);
@@ -74,7 +74,7 @@ export const CampeonatoForm = ({ onClose, existingCampeonato }: CampeonatoFormPr
           </div>
           <div className="mb-4">
             <label htmlFor="fecha" className="block text-sm font-medium text-gray-700">Fecha</label>
-            <input type="date" {...register('fecha', { required: true })} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+            <input type="datetime-local" {...register('fecha', { required: true })} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
             {errors.fecha && <span className="text-red-500">Este campo es requerido</span>}
           </div>
           <div className="mb-4">
