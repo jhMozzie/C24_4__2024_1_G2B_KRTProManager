@@ -1,4 +1,3 @@
-// components/detallecampeonatocompetidorCategoria/CrudCampeonatoCompetidorCategoria.tsx
 import { useState } from "react";
 import { DetallecampeonatocompetidorCategoria } from "../interfaces/detallecampeonatocompetidorCategoria";
 import { detallecampeonatocompetidorCategoriaObtener, detallecampeonatocompetidorCategoriaObtenerid } from "../services/CampeonatoCompetidorCategoria/api";
@@ -11,20 +10,32 @@ import { XCircle } from "lucide-react";
 export const CrudCampeonatoCompetidorCategoria = () => {
   const [isFormVisible, setFormVisible] = useState(false);
   const [currentDetalle, setCurrentDetalle] = useState<DetallecampeonatocompetidorCategoria | undefined>(undefined);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [filterBy, setFilterBy] = useState<string>("categoria");
 
   const { data: detallesData, error, isLoading } = useQuery<DetallecampeonatocompetidorCategoria[]>({
     queryKey: ["detallecampeonatocompetidorCategoria"],
     queryFn: detallecampeonatocompetidorCategoriaObtener,
   });
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterBy(e.target.value);
+  };
+
   const filteredDetalles = detallesData
-    ? detallesData.filter((detalle) =>
-        `${detalle.Competidor_nombre} ${detalle.Competidor_apellido}`.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+    ? detallesData.filter((detalle) => {
+        const fullName = `${detalle.Competidor_nombre} ${detalle.Competidor_apellido}`.toLowerCase();
+        if (filterBy === "competidor") {
+          return fullName.includes(searchTerm.toLowerCase());
+        } else if (filterBy === "categoria") {
+          return detalle.Categoria_nombre.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+        return false;
+      })
     : [];
 
   const deleteDetalleMutation = useDeleteDetallecampeonatocompetidorCategoria();
@@ -50,13 +61,21 @@ export const CrudCampeonatoCompetidorCategoria = () => {
   if (!detallesData) {
     return <div>No hay detalles para mostrar</div>;
   }
+  const formatDate = (dateString: Date) => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric', month: 'long', day: 'numeric',
+      hour: 'numeric', minute: 'numeric'
+    };
+    return new Date(dateString).toLocaleDateString('es-ES', options);
+  };
+  
 
   return (
     <div className="mt-10 flex flex-col items-center px-4">
       <Toaster position="top-right" reverseOrder={true} />
       <div className="w-full max-w-7xl mb-6 text-center">
-        <h1 className="text-3xl font-bold mb-2">Portal de Gestión de Detalles Campeonato Competidor Categoría</h1>
-        <p className="text-gray-600">Aquí puedes gestionar la lista de detalles. Agrega, actualiza o elimina detalles según sea necesario.</p>
+        <h1 className="text-3xl font-bold mb-2">Asignación de Competidores a Categorías y Campeonatos</h1>
+        <p className="text-gray-600">Para asignar competidores a categorías específicas dentro de campeonatos.</p>
       </div>
       <div className="w-full max-w-7xl mb-6 flex justify-start items-center">
         <button
@@ -68,10 +87,18 @@ export const CrudCampeonatoCompetidorCategoria = () => {
         >
           Crear Detalle
         </button>
-        <div className="relative">
+        <div className="relative flex items-center">
+          <select
+            value={filterBy}
+            onChange={handleFilterChange}
+            className="border border-gray-300 rounded-md py-2 px-4 mr-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value="categoria">Categoría</option>
+            <option value="competidor">Competidor</option>
+          </select>
           <input
             type="text"
-            placeholder="Buscar por nombre de competidor"
+            placeholder={`Buscar por ${filterBy}`}
             value={searchTerm}
             onChange={handleSearchChange}
             className="px-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
@@ -92,9 +119,9 @@ export const CrudCampeonatoCompetidorCategoria = () => {
               <th className="border px-4 py-4">ID</th>
               <th className="border px-4 py-4">Competidor</th>
               <th className="border px-4 py-4">Dojo Competidor</th>
-              <th className="border px-4 py-4">Categoria</th>
-              <th className="border px-4 py-4">Detalle categoria</th>
-              <th className="border px-4 py-4"> Campeonato - fecha</th>
+              <th className="border px-4 py-4">Categoría</th>
+              <th className="border px-4 py-4">Detalle categoría</th>
+              <th className="border px-4 py-4">Campeonato - Fecha</th>
               <th className="border px-4 py-4">Acciones</th>
             </tr>
           </thead>
@@ -102,18 +129,11 @@ export const CrudCampeonatoCompetidorCategoria = () => {
             {filteredDetalles.map((detalle) => (
               <tr key={detalle.id} className="even:bg-gray-100 odd:bg-white">
                 <td className="border px-4 py-2">{detalle.id}</td>
-                <td className="border px-4 py-2">{`${detalle.Competidor_nombre}  ${detalle.Competidor_apellido}`}</td>
+                <td className="border px-4 py-2">{`${detalle.Competidor_nombre} ${detalle.Competidor_apellido}`}</td>
                 <td className="border px-4 py-2">{detalle.Competidor_dojo_nombre}</td>
                 <td className="border px-4 py-2">{detalle.Categoria_nombre}</td>
                 <td className="border px-4 py-2">{`${detalle.Categoria_genero} - ${detalle.Categoria_modelidad} - ${detalle.Categoria_grado}`}</td>
-                <td className="border px-4 py-2">{`${detalle.Campeonato_nombre} -/- ${new Date(detalle.Campeonato_fecha).toLocaleDateString('es-ES', {
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: 'numeric'
-                })} ${new Date(detalle.Campeonato_fecha).toLocaleTimeString('es-ES', {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}`}</td>
+                <td className="border px-4 py-2">{`${detalle.Campeonato_nombre} -/- ${formatDate(detalle.Campeonato_fecha)}`}</td>
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => handleUpdateClick(detalle.id)}
@@ -136,3 +156,5 @@ export const CrudCampeonatoCompetidorCategoria = () => {
     </div>
   );
 };
+
+

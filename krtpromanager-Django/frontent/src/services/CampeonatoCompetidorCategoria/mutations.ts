@@ -9,20 +9,19 @@ export function useCreateDetallecampeonatocompetidorCategoria() {
 
   return useMutation({
     mutationFn: (data: DetallecampeonatocompetidorCategoria) => detallecampeonatocompetidorCategoriacreate(data),
-    onMutate: () => {
-      console.log("mutate");
+
+    onError: () => {
+      toast('Detalle creado !', {
+        icon: '❌',
+      });
+    },
+    onSuccess: () => {
       toast('Detalle creado !', {
         icon: '👏',
       });
     },
-    onError: () => {
-      console.log("error");
-    },
-    onSuccess: () => {
-      console.log("success");
-    },
     onSettled: async (_, error) => {
-      console.log("settled");
+
       if (error) {
         console.log(error);
       } else {

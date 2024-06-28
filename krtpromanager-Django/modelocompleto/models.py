@@ -73,7 +73,7 @@ class Usuario(AbstractBaseUser):
 class Dojo(models.Model):
     nombreDojo = models.CharField(max_length=150,blank=True, null=True)
     senseiDojo = models.CharField(max_length=120,blank=True, null=True)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'Dojo'
@@ -84,8 +84,8 @@ class Campeonato(models.Model):
     local = models.CharField(max_length=100,blank=True, null=True)
     provincia = models.CharField(max_length=100,blank=True, null=True)
     distrito = models.CharField(max_length=100,blank=True, null=True)
-    url_bases = models.FileField(upload_to='campeonatos/', blank=True, null=True)
-    imagen = models.ImageField(upload_to='campeonatos/images/', blank=True, null=True)  # New field for the image
+    url_bases = models.FileField(upload_to='', blank=True, null=True)
+    imagen = models.ImageField(upload_to='', blank=True, null=True)  # New field for the image
     dojo = models.ForeignKey(Dojo, on_delete=models.CASCADE , blank=True, null=True)
 
     class Meta:

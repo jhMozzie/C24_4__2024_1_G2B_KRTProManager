@@ -56,8 +56,8 @@ export const CrudCampeonatos = () => {
     <div className="mt-10 flex flex-col items-center px-4">
       <Toaster position="top-right" reverseOrder={true} />
       <div className="w-full max-w-7xl mb-6 text-center">
-        <h1 className="text-3xl font-bold mb-2">Portal de Gestión de Campeonatos</h1>
-        <p className="text-gray-600">Aquí puedes gestionar la lista de campeonatos. Agrega, actualiza o elimina campeonatos según sea necesario.</p>
+        <h1 className="text-3xl font-bold mb-2">Gestión de Campeonatos</h1>
+        <p className="text-gray-600"> Para organizar y administrar campeonatos.</p>
       </div>
 
       <div className="w-full max-w-7xl mb-6 flex justify-start items-center">
@@ -104,45 +104,40 @@ export const CrudCampeonatos = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredCampeonatos.map((campeonato) => (
-              <tr key={campeonato.id} className="even:bg-gray-100 odd:bg-white">
-                <td className="border px-4 py-2">{campeonato.id}</td>
-                <td className="border px-4 py-2">{campeonato.nombre}</td>
-                <td className="border px-4 py-2">{new Date(campeonato.fecha).toLocaleDateString('es-ES', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                  })} {new Date(campeonato.fecha).toLocaleTimeString('es-ES', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}
-                </td>                <td className="border px-4 py-2">{campeonato.local}</td>
-                <td className="border px-4 py-2">{campeonato.provincia}</td>
-                <td className="border px-4 py-2">{campeonato.distrito}</td>
-                <td className="border px-4 py-2">{campeonato.dojo_nombre}</td>
-                <td className="border px-4 py-2">
-                {campeonato.imagen && typeof campeonato.imagen === 'string' ? (
-    <img src={campeonato.imagen} alt={campeonato.nombre} className="w-16 h-16 object-cover mx-auto" />
-) : null}
+  {filteredCampeonatos.map((campeonato) => (
+    <tr key={campeonato.id} className="even:bg-gray-100 odd:bg-white">
+      <td className="border px-4 py-2">{campeonato.id}</td>
+      <td className="border px-4 py-2">{campeonato.nombre}</td>
+      <td className="border px-4 py-2">{new Date(campeonato.fecha).toLocaleDateString('es-ES', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        })} {new Date(campeonato.fecha).toLocaleTimeString('es-ES', {
+          hour: '2-digit',
+          minute: '2-digit'
+        })}
+      </td><td className="border px-4 py-2">{campeonato.local}</td><td className="border px-4 py-2">{campeonato.provincia}</td><td className="border px-4 py-2">{campeonato.distrito}</td><td className="border px-4 py-2">{campeonato.dojo_nombre}</td><td className="border px-4 py-2">
+        {campeonato.imagen && typeof campeonato.imagen === 'string' ? (
+          <img src={campeonato.imagen} alt={campeonato.nombre} className="w-16 h-16 object-cover mx-auto" />
+        ) : null}
+      </td><td className="border px-4 py-2">
+        <button
+          onClick={() => handleUpdateClick(campeonato.id)}
+          className="bg-blue-600 text-white py-1 px-3 rounded-md hover:bg-blue-700"
+        >
+          Actualizar
+        </button>
+        <button
+          onClick={() => handleDelete(campeonato.id)}
+          className="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700 ml-2"
+        >
+          Eliminar
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
 
-                </td>
-                <td className="border px-4 py-2">
-                  <button
-                    onClick={() => handleUpdateClick(campeonato.id)}
-                    className="bg-blue-600 text-white py-1 px-3 rounded-md hover:bg-blue-700"
-                  >
-                    Actualizar
-                  </button>
-                  <button
-                    onClick={() => handleDelete(campeonato.id)}
-                    className="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700 ml-2"
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
         </table>
       </div>
     </div>

@@ -104,3 +104,7 @@ class DetalleCampeonatoCategoriaCompetidorSerializer(serializers.ModelSerializer
         model = DetalleCampeonatoCategoriaCompetidor
         fields = '__all__'
         
+class CompetidoresPorCategoriaSerializer(serializers.Serializer):
+    categoria_nombre = serializers.CharField(max_length=100)
+    categoria_modalidad = serializers.CharField(max_length=100)
+    cantidad_competidores = serializers.IntegerField()

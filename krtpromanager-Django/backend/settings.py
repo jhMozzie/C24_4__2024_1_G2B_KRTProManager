@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'storages',
 ]
 
 AUTH_USER_MODEL = 'modelocompleto.Usuario'
@@ -146,6 +148,7 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
 CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
 
 ##para personalizar el tiempo
 SIMPLE_JWT = {
@@ -187,6 +190,14 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
+#AWS S3
+AWS_ACCESS_KEY_ID = 'AKIAYS2NTYQS5TB37ZV3'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'bucketbitmind'
+AWS_S3_REGION_NAME = 'us-east-2'
+AWS_S3_CUSTOM_DOMAIN = 'bucketbitmind.s3.amazonaws.com'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,"media")
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

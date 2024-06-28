@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view , permission_classes
 from rest_framework.response import Response
-from .serializers import UserSerializer,CampeonatoSerializer,CategoriaSerializer,CompetidorSerializer,SansionSerializer,DojoSerializer,DetalleCategoriaCompetidorSerializer,DetalleCampeonatoCategoriaSerializer,DetalleCampeonatoCategoriaCompetidorSerializer
+from .serializers import UserSerializer,CampeonatoSerializer,CategoriaSerializer,CompetidorSerializer,SansionSerializer,DojoSerializer,DetalleCategoriaCompetidorSerializer,DetalleCampeonatoCategoriaSerializer,DetalleCampeonatoCategoriaCompetidorSerializer,CompetidoresPorCategoriaSerializer
 #para el status
 from rest_framework import status
 #para las acciones
@@ -23,6 +23,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 #########
 # Create your views here.
 from rest_framework.parsers import MultiPartParser, FormParser
+#para la consulta avanzada
+from django.db.models import Count
 
 #crud crear 
 class UsuarioViewSet(viewsets.ModelViewSet):
@@ -152,3 +154,34 @@ class DetalleCampeonatoCategoriaCompetidorViewSet(viewsets.ModelViewSet):
     serializer_class = DetalleCampeonatoCategoriaCompetidorSerializer
       
     
+#para mi consulta avanzada 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsAdminUser])
+def competidores_por_categoria(request):
+    campeonato_nombre = request.data.get('campeonato_nombre')
+    campeonato_fecha = request.data.get('campeonato_fecha')
+
+    if not campeonato_nombre or not campeonato_fecha:
+        return Response({'error': 'campeonato_nombre y campeonato_fecha son requeridos'}, status=400)
+
+    query = DetalleCampeonatoCategoriaCompetidor.objects.values(
+        'categoria_campeonato__categoria__nombre',
+        'categoria_campeonato__categoria__modalidad'
+    ).annotate(
+        cantidad_competidores=Count('competidor_id')
+    ).filter(
+        categoria_campeonato__campeonato__nombre=campeonato_nombre,
+        categoria_campeonato__campeonato__fecha=campeonato_fecha
+    ).order_by('-cantidad_competidores')
+
+    results = [
+        {
+            'categoria_nombre': item['categoria_campeonato__categoria__nombre'],
+            'categoria_modalidad': item['categoria_campeonato__categoria__modalidad'],
+            'cantidad_competidores': item['cantidad_competidores']
+        }
+        for item in query
+    ]
+
+    serializer = CompetidoresPorCategoriaSerializer(results, many=True)
+    return Response(serializer.data)

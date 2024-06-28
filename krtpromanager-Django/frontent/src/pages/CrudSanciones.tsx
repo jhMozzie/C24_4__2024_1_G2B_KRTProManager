@@ -69,8 +69,8 @@ export const CrudSanciones = () => {
     <div className="mt-10 flex flex-col items-center px-4">
       <Toaster position="top-right" reverseOrder={true} />
       <div className="w-full max-w-7xl mb-6 text-center">
-        <h1 className="text-3xl font-bold mb-2">Portal de Gestión de Sanciones</h1>
-        <p className="text-gray-600">Aquí puedes gestionar la lista de sanciones. Agrega, actualiza o elimina sanciones según sea necesario.</p>
+        <h1 className="text-3xl font-bold mb-2">Gestión de Sanciones</h1>
+        <p className="text-gray-600">Para administrar sanciones aplicadas a competidores.</p>
       </div>
       <div className="w-full max-w-7xl mb-6 flex justify-start items-center">
         <button

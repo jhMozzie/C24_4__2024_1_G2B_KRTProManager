@@ -20,37 +20,36 @@ export default function Sidebar({ children }: SidebarProps) {
   const navigate = useNavigate();
 
   return (
-<aside className={`h-screen ${expanded ? "w-64" : "w-20"} transition-all fixed-sidebar`}>
-  <nav className="h-full flex flex-col bg-white border-r shadow-sm">
-    <div className="p-4 pb-2 flex justify-between items-center">
-      <button
-        onClick={() => setExpanded((curr) => !curr)}
-        className="p-1.5 rounded-lg bg-gray-50 hover"
-      >
-        {expanded ? <ChevronFirst /> : <ChevronLast />}
-      </button>
-    </div>
-    <SidebarContext.Provider value={{ expanded, setExpanded }}>
-      <ul className="flex-1 px-3">{children}</ul>
-      <div className="border-t flex p-3">
-        {/* Información de usuario */}
-      </div>
-      <div className="p-3">
-        <button
-          onClick={() => {
-            logout();
-            navigate("/");
-          }}
-          className="w-full flex items-center text-left px-2 py-1 rounded bg-red-500 text-white hover:bg-red-600 transition-colors"
-        >
-          <LogOut size={20} className="mr-2" />
-          {expanded && <span>Cerrar Sesión</span>}
-        </button>
-      </div>
-    </SidebarContext.Provider>
-  </nav>
-</aside>
-
+    <aside className={`h-screen ${expanded ? "w-64" : "w-20"} transition-all fixed-sidebar`}>
+      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+        <div className="p-4 pb-2 flex justify-between items-center">
+          <button
+            onClick={() => setExpanded((curr) => !curr)}
+            className="p-1.5 rounded-lg bg-gray-50 hover"
+          >
+            {expanded ? <ChevronFirst /> : <ChevronLast />}
+          </button>
+        </div>
+        <SidebarContext.Provider value={{ expanded, setExpanded }}>
+          <ul className="flex-1 px-3">{children}</ul>
+          <div className="border-t flex p-3">
+            {/* Información de usuario */}
+          </div>
+          <div className="p-3">
+            <button
+              onClick={() => {
+                logout();
+                navigate("/");
+              }}
+              className="w-full flex items-center text-left px-2 py-1 rounded bg-red-500 text-white hover:bg-red-600 transition-colors"
+            >
+              <LogOut size={20} className="mr-2" />
+              {expanded && <span>Cerrar Sesión</span>}
+            </button>
+          </div>
+        </SidebarContext.Provider>
+      </nav>
+    </aside>
   );
 }
 
@@ -84,7 +83,9 @@ export function SidebarItem({ icon, text, alert, to }: SidebarItemProps) {
         to={to}
         className="flex items-center py-2 px-3 w-full h-full"
       >
-        {icon}
+        <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+          {icon}
+        </div>
         <span className={`overflow-hidden transition-all ${expanded ? "ml-3" : "w-0"}`}>
           {expanded && text}
         </span>
