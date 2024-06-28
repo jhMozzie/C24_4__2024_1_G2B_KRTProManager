@@ -1,7 +1,7 @@
-package com.krtpromanager.krtpromanagerSpringBoot.model;
+package com.krtpromanager.krtpromanagerSpringBoot.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,29 +10,34 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
 @Data
-@Table(name="usuario")
+@Entity
+@Table(name = "Usuario")
 public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private String apellido;
-    private String email;
+
+    @NotBlank(message = "username is required")
+    @Column(unique = true)
     private String username;
+    @NotBlank(message = "nombre is required")
+    private String nombres;
+    @NotBlank(message = "apellido is required")
+    private String apellidos;
+    @NotBlank(message = "email is required")
+    private String email;
+    @NotBlank(message = "password is required")
     private String password;
+    @NotBlank(message = "rol is required")
+    private String rol;
 
-    @Enumerated(EnumType.STRING)
-    private Rol rol;
-
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Dojo> dojos;
+    @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Dojo dojo;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol.name()));
+        return List.of(new SimpleGrantedAuthority(rol));
     }
 
     @Override
