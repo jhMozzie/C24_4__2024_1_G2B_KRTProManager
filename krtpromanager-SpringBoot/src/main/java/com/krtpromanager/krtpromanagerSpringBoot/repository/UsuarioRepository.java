@@ -1,6 +1,7 @@
 package com.krtpromanager.krtpromanagerSpringBoot.repository;
 
-import com.krtpromanager.krtpromanagerSpringBoot.model.Usuario;
+
+import com.krtpromanager.krtpromanagerSpringBoot.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
