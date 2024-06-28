@@ -1,56 +1,61 @@
 package com.krtpromanager.krtpromanagerSpringBoot.controller;
 
-import com.krtpromanager.krtpromanagerSpringBoot.models.Competidor;
-import com.krtpromanager.krtpromanagerSpringBoot.models.Dojo;
-import com.krtpromanager.krtpromanagerSpringBoot.services.CompetidorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.krtpromanager.krtpromanagerSpringBoot.dto.CompetidorDTO;
+import com.krtpromanager.krtpromanagerSpringBoot.dto.Response;
+import com.krtpromanager.krtpromanagerSpringBoot.service.interfac.ICompetidorService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
-@RequestMapping("/api/v1/competidores")
+@RequestMapping("/competidores")
 public class CompetidorController {
-    @Autowired
-    private CompetidorService competidorService;
+    private final ICompetidorService competidorService;
 
-    // Obtener todos los competidores
-    @GetMapping
-    public ResponseEntity<List<Competidor>> getAllDojos(){
-        List<Competidor> competidores = competidorService.getAllCompetidores();
-        return ResponseEntity.ok(competidores);
+    // Autenticacion de inicio de sesion
+    private String getAuthenticatedUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 
-    // Obtener competidor por Id
+    public CompetidorController(ICompetidorService competidorService) {
+        this.competidorService = competidorService;
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Response> getCompetidoresByAuthenticatedUser() {
+        String username = getAuthenticatedUsername();
+        Response response = competidorService.getCompetidoresByAuthenticatedUser(username);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Response> createCompetidor(@RequestBody CompetidorDTO competidorDTO){
+        String username = getAuthenticatedUsername();
+        Response response = competidorService.createCompetidor(competidorDTO, username);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Competidor> getCompetidorById(@PathVariable Long id){
-        Optional<Competidor> competidor = competidorService.getCompetidorById(id);
-        return competidor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Response> getCompetidorById(@PathVariable Long id) {
+        String username = getAuthenticatedUsername();
+        Response response = competidorService.getCompetidorById(id, username);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
-    // Crear un nuevo competidor
-    @PostMapping
-    public ResponseEntity<Competidor> createCompetidor(@RequestBody Competidor competidor){
-        Competidor createdCompetidor = competidorService.createCompetidor(competidor);
-        return ResponseEntity.ok(createdCompetidor);
-    }
-
-    // Actualizar competidor
     @PutMapping("/{id}")
-    public ResponseEntity<Competidor> updateCompetidor(@PathVariable Long id, @RequestBody Competidor competidor){
-        Optional<Competidor> updatedCompetidor = competidorService.updateCompetidor(id, competidor);
-        return updatedCompetidor.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+    public ResponseEntity<Response> updateCompetidor(@PathVariable Long id, @RequestBody CompetidorDTO competidorDTO){
+        String username = getAuthenticatedUsername();
+        Response response = competidorService.updateCompetidor(id, competidorDTO, username);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCompetidor(@PathVariable Long id){
-        boolean deleted = competidorService.deleteCompetidor(id);
-        if(deleted){
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Response> deleteCompetidor(@PathVariable Long id){
+        String username = getAuthenticatedUsername();
+        Response response = competidorService.deleteCompetidor(id, username);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }

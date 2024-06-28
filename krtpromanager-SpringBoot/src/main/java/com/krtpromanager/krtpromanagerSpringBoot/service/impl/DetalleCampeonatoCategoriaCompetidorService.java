@@ -195,4 +195,3 @@ public class DetalleCampeonatoCategoriaCompetidorService implements IDetalleCamp
         return response;
     }
 }
-
