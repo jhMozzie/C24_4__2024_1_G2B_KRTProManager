@@ -147,7 +147,7 @@ class DetalleCampeonatoCategoriaCompetidor(models.Model):
         unique_together = ('categoria_campeonato', 'competidor')
 
 class Sancion(models.Model):
-    competidor = models.ForeignKey(DetalleCampeonatoCategoriaCompetidor, on_delete=models.CASCADE)
+    detallecampeonatocategoriacompetidor_id = models.ForeignKey(DetalleCampeonatoCategoriaCompetidor, on_delete=models.CASCADE)
     motivo = models.CharField(max_length=255)
 
     class Meta:

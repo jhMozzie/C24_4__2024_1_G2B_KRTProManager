@@ -85,7 +85,7 @@ export const CrudCampeonatoCompetidorCategoria = () => {
           }}
           className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mr-2"
         >
-          Crear Detalle
+          Crear Relacion Campeonato a competidor y categoria
         </button>
         <div className="relative flex items-center">
           <select

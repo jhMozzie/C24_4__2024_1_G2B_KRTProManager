@@ -1,9 +1,6 @@
 package com.krtpromanager.krtpromanagerSpringBoot.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.krtpromanager.krtpromanagerSpringBoot.entity.Competidor;
-import com.krtpromanager.krtpromanagerSpringBoot.entity.DetalleCampeonatoCategoriaCompetidor;
-import com.krtpromanager.krtpromanagerSpringBoot.entity.Usuario;
 import lombok.Data;
 
 import java.util.List;
