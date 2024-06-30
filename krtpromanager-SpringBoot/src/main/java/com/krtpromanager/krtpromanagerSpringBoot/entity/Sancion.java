@@ -10,4 +10,9 @@ public class Sancion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String motivo;
+
+    @ManyToOne
+    @JoinColumn(name = "detallecampeonatocategoriacompetidor_id")
+    private DetalleCampeonatoCategoriaCompetidor detalleCampeonatoCategoriaCompetidor;
 }

@@ -1,6 +1,9 @@
 package com.krtpromanager.krtpromanagerSpringBoot.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.krtpromanager.krtpromanagerSpringBoot.entity.Competidor;
+import com.krtpromanager.krtpromanagerSpringBoot.entity.DetalleCampeonatoCategoriaCompetidor;
+import com.krtpromanager.krtpromanagerSpringBoot.entity.Usuario;
 import lombok.Data;
 
 import java.util.List;
@@ -17,6 +20,7 @@ public class Response {
     private DojoDTO dojo;
     private CompetidorDTO competidor;
     private CampeonatoDTO campeonato;
+    private SancionDTO sancion;
     private DetalleCampeonatoCategoriaDTO detalleCampeonatoCategoria;
     private DetalleCampeonatoCategoriaCompetidorDTO detalleCampeonatoCategoriaCompetidorDTO;
     private List<DetalleCampeonatoCategoriaCompetidorDTO> detalleCampeonatoCategoriaCompetidorDTOList;
@@ -25,4 +29,5 @@ public class Response {
     private List<UsuarioDTO> usuarioList;
     private List<DojoDTO> dojoList;
     private List<CampeonatoDTO> campeonatoList;
+    private List<SancionDTO> sancionList;
 }
