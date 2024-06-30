@@ -2,6 +2,7 @@ package com.krtpromanager.krtpromanagerSpringBoot.mappers;
 
 import com.krtpromanager.krtpromanagerSpringBoot.dto.CampeonatoDTO;
 import com.krtpromanager.krtpromanagerSpringBoot.entity.Campeonato;
+import com.krtpromanager.krtpromanagerSpringBoot.utils.Utils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ public class CampeonatoMapper {
         campeonatoDTO.setProvincia(campeonato.getProvincia());
         campeonatoDTO.setDistrito(campeonato.getDistrito());
         campeonatoDTO.setUrl_bases(campeonato.getUrl_bases());
-        campeonatoDTO.setImagen(campeonato.getImagen());
+        campeonatoDTO.setImagen(Utils.construirUrl(campeonato.getImagen()));
         campeonatoDTO.setDojo(DojoMapper.mapDojoToDojoDTO(campeonato.getDojo()));
         return campeonatoDTO;
     }
