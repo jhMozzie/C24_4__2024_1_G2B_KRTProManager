@@ -7,6 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+import bcrypt
 
 
 class Campeonato(models.Model):
@@ -104,7 +105,29 @@ class Usuario(models.Model):
     class Meta:
         managed = False
         db_table = 'usuario'
+        
+    def set_password(self, raw_password):
+        """
+        Hash the password using bcrypt and save it.
+        """
+        salt = bcrypt.gensalt()
+        hashed_password = bcrypt.hashpw(raw_password.encode('utf-8'), salt)
+        self.password = hashed_password.decode('utf-8')
+    
+    def check_password(self, raw_password):
+        """
+        Check if the provided password matches the hashed password stored.
+        """
+        return bcrypt.checkpw(raw_password.encode('utf-8'), self.password.encode('utf-8'))
 
+    def save(self, *args, **kwargs):
+        """
+        Override the save method to hash the password if it's not hashed yet.
+        """
+        if not self.password.startswith('$2b$'):
+            self.set_password(self.password)
+        super(Usuario, self).save(*args, **kwargs)
+    
 class Detallecategoriacompetidor(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     competidor = models.ForeignKey(Competidor, on_delete=models.CASCADE) 

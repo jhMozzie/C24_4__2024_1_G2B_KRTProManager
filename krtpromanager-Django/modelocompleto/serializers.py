@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from .models import Campeonato, Categoria, Detallecategoriacompetidor, Competidor, Sancion, Usuario,Dojo,Detallecampeonatocategoria,Detallecampeonatocategoriacompetidor
-from django.contrib.auth.hashers import make_password
 
-import re
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,22 +9,19 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True},
             'rol': {'required': False, 'default': 'academia'}  # Haciendo que 'rol' sea opcional y estableciendo un valor por defecto
-        } 
+        }
 
     def create(self, validated_data):
-        validated_data['password'] = make_password(validated_data.get('password'))  # Encriptar la contraseña
-        validated_data['password'] = self.clean_bcrypt_hash(validated_data['password'])  # Limpiar el prefijo
-        user = Usuario.objects.create(**validated_data)
+        user = Usuario(**validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
         return user
-    
+
     def update(self, instance, validated_data):
         if 'password' in validated_data:
-            validated_data['password'] = make_password(validated_data['password'])
-            validated_data['password'] = self.clean_bcrypt_hash(validated_data['password'])  # Limpiar el prefijo
+            instance.set_password(validated_data['password'])
+            validated_data['password'] = instance.password
         return super().update(instance, validated_data)
-    
-    def clean_bcrypt_hash(self, hash):
-        return re.sub(r'^bcrypt\$\$', '', hash)
         
 class CampeonatoSerializer(serializers.ModelSerializer):
     
