@@ -19,7 +19,7 @@ export const Form_login = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       const datos = await loginPost(data);
-      cambiarestado(datos.token);
+      cambiarestado(datos.access);
       reset();
       navigate("/competidores");
     } catch (error) {

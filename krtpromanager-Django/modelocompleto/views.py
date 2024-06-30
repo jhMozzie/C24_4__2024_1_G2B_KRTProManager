@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 
 
-from .models import Usuario,Campeonato,Categoria,Competidor,Sancion,Dojo,DetalleCategoriaCompetidor,DetalleCampeonatoCategoria,DetalleCampeonatoCategoriaCompetidor
+from .models import Usuario,Campeonato,Categoria,Competidor,Sancion,Dojo,Detallecategoriacompetidor,Detallecampeonatocategoria,Detallecampeonatocategoriacompetidor
 
 
 
@@ -140,17 +140,17 @@ class SancionViewSet(viewsets.ModelViewSet):
 
 class DetalleCategoriaCompetidorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,IsAdminUser]
-    queryset = DetalleCategoriaCompetidor.objects.all()
+    queryset = Detallecategoriacompetidor.objects.all()
     serializer_class = DetalleCategoriaCompetidorSerializer
   
 class DetalleCampeonatoCategoriaViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,IsAdminUser]
-    queryset = DetalleCampeonatoCategoria.objects.all()
+    queryset = Detallecampeonatocategoria.objects.all()
     serializer_class = DetalleCampeonatoCategoriaSerializer
     
 class DetalleCampeonatoCategoriaCompetidorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,IsAdminUser]
-    queryset = DetalleCampeonatoCategoriaCompetidor.objects.all()
+    queryset = Detallecampeonatocategoriacompetidor.objects.all()
     serializer_class = DetalleCampeonatoCategoriaCompetidorSerializer
       
     
@@ -164,7 +164,7 @@ def competidores_por_categoria(request):
     if not campeonato_nombre or not campeonato_fecha:
         return Response({'error': 'campeonato_nombre y campeonato_fecha son requeridos'}, status=400)
 
-    query = DetalleCampeonatoCategoriaCompetidor.objects.values(
+    query = Detallecampeonatocategoriacompetidor.objects.values(
         'categoria_campeonato__categoria__nombre',
         'categoria_campeonato__categoria__modalidad'
     ).annotate(

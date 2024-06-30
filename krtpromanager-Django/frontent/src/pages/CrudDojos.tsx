@@ -31,7 +31,7 @@ export const CrudDojos = () => {
 
   const filteredDojos = dojosData
     ? dojosData.filter((dojo) =>
-        dojo.nombreDojo.toLowerCase().includes(searchTerm.toLowerCase())
+        dojo.nombredojo.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : [];
 
@@ -113,8 +113,8 @@ export const CrudDojos = () => {
             {filteredDojos.map((dojo) => (
               <tr key={dojo.id} className="even:bg-gray-100 odd:bg-white">
                 <td className="border px-4 py-2">{dojo.id}</td>
-                <td className="border px-4 py-2">{dojo.nombreDojo}</td>
-                <td className="border px-4 py-2">{dojo.senseiDojo}</td>
+                <td className="border px-4 py-2">{dojo.nombredojo}</td>
+                <td className="border px-4 py-2">{dojo.senseidojo}</td>
                 <td className="border px-4 py-2">{dojo.usuario_nombre}</td>
                 <td className="border px-4 py-2">
                   <button

@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from .models import Campeonato, Categoria, DetalleCategoriaCompetidor, Competidor, Sancion, Usuario,Dojo,DetalleCampeonatoCategoria,DetalleCampeonatoCategoriaCompetidor
+from .models import Campeonato, Categoria, Detallecategoriacompetidor, Competidor, Sancion, Usuario,Dojo,Detallecampeonatocategoria,Detallecampeonatocategoriacompetidor
 from django.contrib.auth.hashers import make_password
+
+import re
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,17 +13,20 @@ class UserSerializer(serializers.ModelSerializer):
             'rol': {'required': False, 'default': 'academia'}  # Haciendo que 'rol' sea opcional y estableciendo un valor por defecto
         } 
 
-
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data.get('password'))  # Encriptar la contraseña
+        validated_data['password'] = self.clean_bcrypt_hash(validated_data['password'])  # Limpiar el prefijo
         user = Usuario.objects.create(**validated_data)
         return user
     
     def update(self, instance, validated_data):
         if 'password' in validated_data:
             validated_data['password'] = make_password(validated_data['password'])
+            validated_data['password'] = self.clean_bcrypt_hash(validated_data['password'])  # Limpiar el prefijo
         return super().update(instance, validated_data)
     
+    def clean_bcrypt_hash(self, hash):
+        return re.sub(r'^bcrypt\$\$', '', hash)
         
 class CampeonatoSerializer(serializers.ModelSerializer):
     
@@ -47,7 +52,7 @@ class CategoriaSerializer(serializers.ModelSerializer):
 
 class CompetidorSerializer(serializers.ModelSerializer):
     #aca solo lo hago para poder hacer que en la vista poder ver los nombres
-    dojo_nombre = serializers.ReadOnlyField(source='dojo.nombreDojo')
+    dojo_nombre = serializers.ReadOnlyField(source='dojo.nombredojo')
 
     class Meta:
         model = Competidor
@@ -73,7 +78,7 @@ class DetalleCategoriaCompetidorSerializer(serializers.ModelSerializer):
     Categoria_grado = serializers.ReadOnlyField(source='categoria.grado')
         
     class Meta:
-        model = DetalleCategoriaCompetidor
+        model = Detallecategoriacompetidor
         fields = '__all__'
 
 class DetalleCampeonatoCategoriaSerializer(serializers.ModelSerializer):
@@ -86,7 +91,7 @@ class DetalleCampeonatoCategoriaSerializer(serializers.ModelSerializer):
     Categoria_grado = serializers.ReadOnlyField(source='categoria.grado')
 
     class Meta:
-        model = DetalleCampeonatoCategoria
+        model = Detallecampeonatocategoria
         fields = '__all__'
 
 class DetalleCampeonatoCategoriaCompetidorSerializer(serializers.ModelSerializer):
@@ -101,7 +106,7 @@ class DetalleCampeonatoCategoriaCompetidorSerializer(serializers.ModelSerializer
     Competidor_dojo_nombre = serializers.ReadOnlyField(source='competidor.dojo.nombreDojo')
     
     class Meta:
-        model = DetalleCampeonatoCategoriaCompetidor
+        model = Detallecampeonatocategoriacompetidor
         fields = '__all__'
         
 class CompetidoresPorCategoriaSerializer(serializers.Serializer):

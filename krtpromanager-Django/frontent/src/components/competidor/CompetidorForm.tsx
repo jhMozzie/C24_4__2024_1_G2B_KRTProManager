@@ -76,7 +76,7 @@ export const CompetidorForm = ({ onClose, existingCompetidor }: CompetidorFormPr
               <option value="">Selecciona un dojo</option>
               {DojosData?.map((dojo) => (
                 <option key={dojo.id} value={dojo.id}>
-                  {dojo.nombreDojo}
+                  {dojo.nombredojo}
                 </option>
               ))}
             </select>

@@ -1,205 +1,117 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-class UsuarioManager(BaseUserManager):
-    def create_user(self, username, nombres, apellidos, email, rol='academia', password=None):
-        if not email:
-            raise ValueError('El usuario debe tener un correo electrónico')
-        if not username:
-            raise ValueError('El usuario debe tener un nombre de usuario')
-        
-        email = self.normalize_email(email)
-        usuario = self.model(
-            username=username,
-            nombres=nombres,
-            apellidos=apellidos,
-            email=email,
-            rol=rol
-        )
-        usuario.set_password(password)
-        usuario.save(using=self._db)
-        return usuario
 
-    def create_superuser(self, username, nombres, apellidos, email, password):
-        usuario = self.create_user(
-            username=username,
-            nombres=nombres,
-            apellidos=apellidos,
-            email=email,
-            password=password,
-            rol='administrador'
-        )
-        usuario.usuario_administrador = True
-        usuario.save(using=self._db)
-        return usuario
+class Campeonato(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    distrito = models.CharField(max_length=255, blank=True, null=True)
+    fecha = models.DateTimeField(blank=True, null=True)
+    imagen = models.ImageField(upload_to='', blank=True, null=True)  # New field for the image
+    local = models.CharField(max_length=255, blank=True, null=True)
+    nombre = models.CharField(max_length=255, blank=True, null=True)
+    provincia = models.CharField(max_length=255, blank=True, null=True)
+    url_bases = models.FileField(upload_to='', blank=True, null=True)#cambiado por mi 
+    dojo = models.ForeignKey('Dojo', models.DO_NOTHING, blank=True, null=True)
 
-class Usuario(AbstractBaseUser):
-    class Rol(models.TextChoices):
-        ADMINISTRADOR = 'administrador', _('Administrador')
-        ACADEMIA = 'academia', _('Academia')
-        ARBITRO = 'arbitro', _('Arbitro')
-
-    username = models.CharField("Nombre para el loginnnnnn", unique=True, max_length=100)
-    nombres = models.CharField("Nombres", max_length=200, blank=True, null=True)
-    apellidos = models.CharField("Apellidos", max_length=200, blank=True, null=True)
-    email = models.EmailField("Email", max_length=255, unique=True , blank=True, null=True)
-    rol = models.CharField(max_length=20, choices=Rol.choices, default=Rol.ACADEMIA)
-    usuario_activo = models.BooleanField(default=True)
-    usuario_administrador = models.BooleanField(default=False)
-
-    objects = UsuarioManager()
-
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['nombres', 'apellidos', 'email']
-
-    def __str__(self):
-        return f"{self.username} ({self.rol})"
-
-    def has_perm(self, perm, obj=None):
-        return True
-
-    def has_module_perms(self, app_label):
-        return True
-
-    @property
-    def is_staff(self):
-        return self.usuario_administrador
-    
     class Meta:
-        db_table = 'Usuario'
+        managed = False
+        db_table = 'campeonato'
+
+
+class Categoria(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    nombre = models.CharField(max_length=255, blank=True, null=True)
+    descripcion = models.CharField(max_length=255, blank=True, null=True)
+    genero = models.CharField(max_length=255, blank=True, null=True)
+    grado = models.CharField(max_length=255, blank=True, null=True)
+    modalidad = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'categoria'
+
+
+class Competidor(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    apellido = models.CharField(max_length=255, blank=True, null=True)
+    edad = models.IntegerField()
+    genero = models.CharField(max_length=255, blank=True, null=True)
+    nombre = models.CharField(max_length=255, blank=True, null=True)
+    dojo = models.ForeignKey('Dojo', models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'competidor'
+
+
+class Detallecampeonatocategoria(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    campeonato = models.ForeignKey(Campeonato, models.DO_NOTHING, blank=True, null=True)
+    categoria = models.ForeignKey(Categoria, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'detallecampeonatocategoria'
+
+
+class Detallecampeonatocategoriacompetidor(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    competidor = models.ForeignKey(Competidor, models.DO_NOTHING, blank=True, null=True)
+    categoria_campeonato = models.ForeignKey(Detallecampeonatocategoria, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'detallecampeonatocategoriacompetidor'
 
 
 class Dojo(models.Model):
-    nombreDojo = models.CharField(max_length=150,blank=True, null=True)
-    senseiDojo = models.CharField(max_length=120,blank=True, null=True)
-    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
+    id = models.BigAutoField(primary_key=True)
+    nombredojo = models.CharField(db_column='nombreDojo', max_length=255)  # Field name made lowercase.
+    senseidojo = models.CharField(db_column='senseiDojo', max_length=255)  # Field name made lowercase.
+    usuario = models.OneToOneField('Usuario', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
-        db_table = 'Dojo'
+        managed = False
+        db_table = 'dojo'
 
-class Campeonato(models.Model):
-    nombre = models.CharField(max_length=100,blank=True, null=True)
-    fecha = models.DateTimeField()
-    local = models.CharField(max_length=100,blank=True, null=True)
-    provincia = models.CharField(max_length=100,blank=True, null=True)
-    distrito = models.CharField(max_length=100,blank=True, null=True)
-    url_bases = models.FileField(upload_to='', blank=True, null=True)
-    imagen = models.ImageField(upload_to='', blank=True, null=True)  # New field for the image
-    dojo = models.ForeignKey(Dojo, on_delete=models.CASCADE , blank=True, null=True)
-
-    class Meta:
-        db_table = 'Campeonato'
-
-    def __str__(self):
-        return self.nombre
-
-class Categoria(models.Model):
-    NOMENCLATURA_CHOICES = [(f'A{i}', f'A{i}') for i in range(1, 51)] + [(f'B{i}', f'B{i}') for i in range(1, 51)]
-
-    GENERO_CHOICES = (
-        ('Masculino', 'Masculino'),
-        ('Femenino', 'Femenino'),
-    )
-    MODALIDAD_CHOICES = (
-        ('Kata', 'Kata'),
-        ('Kumite', 'Kumite'),
-    )
-    nombre = models.CharField(max_length=10, choices=NOMENCLATURA_CHOICES)
-    descripcion = models.CharField(max_length=100)
-    genero = models.CharField(max_length=10, choices=GENERO_CHOICES)
-    grado = models.CharField(max_length=50)
-    modalidad = models.CharField(max_length=10, choices=MODALIDAD_CHOICES)
-
-    class Meta:
-        db_table = 'Categoria'
-
-    def __str__(self):
-        return f"{self.descripcion} - {self.genero} - {self.modalidad}"
-
-class DetalleCampeonatoCategoria(models.Model):
-    campeonato = models.ForeignKey(Campeonato, on_delete=models.CASCADE)
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'DetalleCampeonatoCategoria'
-        unique_together = ('campeonato', 'categoria')
-
-class Competidor(models.Model):
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
-    edad = models.IntegerField()
-    genero = models.CharField(max_length=10, choices=(('masculino', 'Masculino'), ('femenino', 'Femenino')))
-    dojo = models.ForeignKey(Dojo, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'Competidor'
-
-    def __str__(self):
-        return f"{self.nombre} {self.apellido}"
-
-class DetalleCampeonatoCategoriaCompetidor(models.Model):
-    categoria_campeonato = models.ForeignKey(DetalleCampeonatoCategoria, on_delete=models.CASCADE)
-    competidor = models.ForeignKey(Competidor, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'DetalleCampeonatoCategoriaCompetidor'
-        unique_together = ('categoria_campeonato', 'competidor')
 
 class Sancion(models.Model):
-    detallecampeonatocategoriacompetidor_id = models.ForeignKey(DetalleCampeonatoCategoriaCompetidor, on_delete=models.CASCADE)
-    motivo = models.CharField(max_length=255)
+    id = models.BigAutoField(primary_key=True)
+    motivo = models.CharField(max_length=255, blank=True, null=True)
+    detallecampeonatocategoriacompetidor = models.ForeignKey(Detallecampeonatocategoriacompetidor, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
-        db_table = 'Sancion'
+        managed = False
+        db_table = 'sancion'
 
-    def __str__(self):
-        return f"Sancion for {self.competidor}"
 
-class DetalleCategoriaCompetidor(models.Model):
+class Usuario(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    apellidos = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    nombres = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
+    rol = models.CharField(max_length=255)
+    username = models.CharField(unique=True, max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'usuario'
+
+class Detallecategoriacompetidor(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     competidor = models.ForeignKey(Competidor, on_delete=models.CASCADE) 
 
     class Meta:
-        db_table = 'DetalleCategoriaCompetidor'
+        db_table = 'detallecategoriacompetidor'
         unique_together = ('categoria', 'competidor')
         
     def __str__(self):
         return f"{self.categoria} - {self.competidor}"
-
-
-# de aca para abajo talvez no se use     
-
-    
-# class Ronda(models.Model):
-#     nombre = models.CharField(max_length=100)
-#     fecha = models.DateField()
-#     ronda = models.ForeignKey(DetalleCategoriaCompetidor, on_delete=models.CASCADE)
-
-    
-#     def __str__(self):
-#         return self.nombre
-    
-
-# class Combate(models.Model):
-#     ronda = models.ForeignKey(Ronda, on_delete=models.CASCADE)
-#     competidor = models.ForeignKey(Competidor, on_delete=models.CASCADE, related_name='combates')
-#     ganador = models.BooleanField()
-#     puntos = models.IntegerField()
-#     faltas1 = models.IntegerField()
-
-#     def __str__(self):
-#         return f"Combate {self.id} - Ronda {self.ronda}"
-
-   
-    
-# class Medallero(models.Model):
-#     oro = models.IntegerField()
-#     plata = models.IntegerField()
-#     bronce = models.IntegerField()
-#     ronda = models.ForeignKey(Ronda, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return f"Medallero - Ronda {self.ronda}"
-    
- 

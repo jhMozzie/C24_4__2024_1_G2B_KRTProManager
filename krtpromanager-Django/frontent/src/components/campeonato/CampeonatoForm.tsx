@@ -106,7 +106,7 @@ export const CampeonatoForm = ({ onClose, existingCampeonato }: CampeonatoFormPr
               <option value="">Selecciona un dojo</option>
               {DojosData?.map((dojo) => (
                 <option key={dojo.id} value={dojo.id}>
-                  {dojo.nombreDojo}
+                  {dojo.nombredojo}
                 </option>
               ))}
             </select>

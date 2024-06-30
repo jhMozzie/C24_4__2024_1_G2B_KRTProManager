@@ -24,8 +24,8 @@ export const DojoForm = ({ onClose, existingDojo }: DojoFormProps) => {
 
   useEffect(() => {
     if (existingDojo) {
-      setValue('nombreDojo', existingDojo.nombreDojo);
-      setValue('senseiDojo', existingDojo.senseiDojo);
+      setValue('nombredojo', existingDojo.nombredojo);
+      setValue('senseidojo', existingDojo.senseidojo);
       setValue('usuario', existingDojo.usuario);
     }
   }, [existingDojo, setValue]);
@@ -48,13 +48,13 @@ export const DojoForm = ({ onClose, existingDojo }: DojoFormProps) => {
             <label htmlFor="nombreDojo" className="block text-sm font-medium text-gray-700">Nombre Dojo</label>
             <input 
               type="text" 
-              {...register('nombreDojo', { required: true, minLength: 3 })} 
+              {...register('nombredojo', { required: true, minLength: 3 })} 
               className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
             />
-            {errors.nombreDojo && errors.nombreDojo.type === "required" && (
+            {errors.nombredojo && errors.nombredojo.type === "required" && (
               <span className="text-red-500">Este campo es requerido</span>
             )}
-            {errors.nombreDojo && errors.nombreDojo.type === "minLength" && (
+            {errors.nombredojo && errors.nombredojo.type === "minLength" && (
               <span className="text-red-500">El nombre del dojo debe tener al menos 3 caracteres</span>
             )}
           </div>
@@ -62,10 +62,10 @@ export const DojoForm = ({ onClose, existingDojo }: DojoFormProps) => {
             <label htmlFor="senseiDojo" className="block text-sm font-medium text-gray-700">Sensei Dojo</label>
             <input 
               type="text" 
-              {...register('senseiDojo', { required: true })} 
+              {...register('senseidojo', { required: true })} 
               className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
             />
-            {errors.senseiDojo && (
+            {errors.senseidojo && (
               <span className="text-red-500">Este campo es requerido</span>
             )}
           </div>

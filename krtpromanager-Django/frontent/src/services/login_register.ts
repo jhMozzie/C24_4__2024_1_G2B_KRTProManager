@@ -11,8 +11,10 @@ const axiosAuth = axios.create({
  });
 
 
-export const loginPost = async (userData: UserLogin) => (await axiosAuth.post('login', userData)).data;
+//export const loginPosts = async (userData: UserLogin) => (await axiosAuth.post('login', userData)).data;
 export const RegisterPost = async (RegisterData: Register) => (await axiosAuth.post('register', RegisterData)).data;
+export const loginPost = async (userData: UserLogin ) => (await axiosAuth.post('token/', userData)).data;
+
 //metodo get para obtener xd
 
 

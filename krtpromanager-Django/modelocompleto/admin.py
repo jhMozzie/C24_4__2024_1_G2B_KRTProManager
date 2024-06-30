@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import Campeonato, Categoria, DetalleCategoriaCompetidor, Competidor, Sancion, Usuario,Dojo,DetalleCampeonatoCategoria,DetalleCampeonatoCategoriaCompetidor
+from .models import Campeonato, Categoria, Detallecampeonatocategoria, Competidor, Sancion, Usuario,Dojo,Detallecategoriacompetidor,Detallecampeonatocategoriacompetidor
 
 admin.site.register(Campeonato)
 admin.site.register(Dojo)
 admin.site.register(Categoria)
-admin.site.register(DetalleCategoriaCompetidor)
+admin.site.register(Detallecampeonatocategoria)
 admin.site.register(Competidor)
 admin.site.register(Sancion)
 admin.site.register(Usuario)
-admin.site.register(DetalleCampeonatoCategoria)
-admin.site.register(DetalleCampeonatoCategoriaCompetidor)
+admin.site.register(Detallecategoriacompetidor)
+admin.site.register(Detallecampeonatocategoriacompetidor)
