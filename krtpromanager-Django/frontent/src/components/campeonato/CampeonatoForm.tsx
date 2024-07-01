@@ -96,10 +96,17 @@ export const CampeonatoForm = ({ onClose, existingCampeonato }: CampeonatoFormPr
             <label htmlFor="url_bases" className="block text-sm font-medium text-gray-700">URL Bases</label>
             <input type="file" {...register('url_bases')} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" accept=".xlsx, .xls" />
           </div>
+          {existingCampeonato && (
+                        <a href={existingCampeonato.url_bases} target="_blank" rel="noopener noreferrer">Click aqui para descargar las bases </a>
+                      )}
           <div className="mb-4">
             <label htmlFor="imagen" className="block text-sm font-medium text-gray-700">Imagen</label>
             <input type="file" {...register('imagen')} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" accept="image/*" />
           </div>
+          {existingCampeonato && (
+          <img src={existingCampeonato.imagen} alt={existingCampeonato.nombre} className="object-cover mx-auto" />
+        )}
+
           <div className="mb-4">
             <label htmlFor="dojo" className="block text-sm font-medium text-gray-700">Dojo</label>
             <select {...register('dojo', { required: true })} className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">

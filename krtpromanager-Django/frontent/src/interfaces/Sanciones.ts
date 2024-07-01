@@ -4,5 +4,5 @@ export interface Sanciones {
     Competidor_apellido:    string;
     Competidor_dojo_nombre: string;
     motivo:                 string;
-    detallecampeonatocategoriacompetidor_id:             number;
+    detallecampeonatocategoriacompetidor:             number;
 }

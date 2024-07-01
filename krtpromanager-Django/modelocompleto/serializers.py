@@ -25,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
         
 class CampeonatoSerializer(serializers.ModelSerializer):
     
-    dojo_nombre = serializers.ReadOnlyField(source='dojo.nombreDojo')
+    dojo_nombre = serializers.ReadOnlyField(source='dojo.nombredojo')
     
     class Meta:
         model = Campeonato
@@ -55,9 +55,9 @@ class CompetidorSerializer(serializers.ModelSerializer):
         
 
 class SansionSerializer(serializers.ModelSerializer):
-    Competidor_nombre = serializers.ReadOnlyField(source='detallecampeonatocategoriacompetidor_id.competidor.nombre')
-    Competidor_apellido = serializers.ReadOnlyField(source='detallecampeonatocategoriacompetidor_id.competidor.apellido')
-    Competidor_dojo_nombre = serializers.ReadOnlyField(source='detallecampeonatocategoriacompetidor_id.competidor.dojo.nombreDojo')
+    Competidor_nombre = serializers.ReadOnlyField(source='detallecampeonatocategoriacompetidor.competidor.nombre')
+    Competidor_apellido = serializers.ReadOnlyField(source='detallecampeonatocategoriacompetidor.competidor.apellido')
+    Competidor_dojo_nombre = serializers.ReadOnlyField(source='detallecampeonatocategoriacompetidor.competidor.dojo.nombredojo')
     
     class Meta:
         model = Sancion
@@ -66,7 +66,7 @@ class SansionSerializer(serializers.ModelSerializer):
 class DetalleCategoriaCompetidorSerializer(serializers.ModelSerializer):
     Competidor_nombre = serializers.ReadOnlyField(source='competidor.nombre')
     Competidor_apellido = serializers.ReadOnlyField(source='competidor.apellido')
-    Competidor_dojo_nombre = serializers.ReadOnlyField(source='competidor.dojo.nombreDojo')
+    Competidor_dojo_nombre = serializers.ReadOnlyField(source='competidor.dojo.nombredojo')
     Categoria_nombre = serializers.ReadOnlyField(source='categoria.nombre')
     Categoria_genero = serializers.ReadOnlyField(source='categoria.genero')
     Categoria_modelidad = serializers.ReadOnlyField(source='categoria.modalidad')
@@ -98,7 +98,7 @@ class DetalleCampeonatoCategoriaCompetidorSerializer(serializers.ModelSerializer
     Campeonato_fecha = serializers.ReadOnlyField(source='categoria_campeonato.campeonato.fecha')
     Competidor_nombre = serializers.ReadOnlyField(source='competidor.nombre')
     Competidor_apellido = serializers.ReadOnlyField(source='competidor.apellido')
-    Competidor_dojo_nombre = serializers.ReadOnlyField(source='competidor.dojo.nombreDojo')
+    Competidor_dojo_nombre = serializers.ReadOnlyField(source='competidor.dojo.nombredojo')
     
     class Meta:
         model = Detallecampeonatocategoriacompetidor

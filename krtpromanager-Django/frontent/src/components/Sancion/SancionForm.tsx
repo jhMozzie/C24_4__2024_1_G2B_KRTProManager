@@ -23,7 +23,7 @@ export const SancionForm = ({ onClose, existingSancion }: SancionFormProps) => {
 
   useEffect(() => {
     if (existingSancion) {
-      setValue('detallecampeonatocategoriacompetidor_id', existingSancion.detallecampeonatocategoriacompetidor_id);
+      setValue('detallecampeonatocategoriacompetidor', existingSancion.detallecampeonatocategoriacompetidor);
       setValue('motivo', existingSancion.motivo);
     }
   }, [existingSancion, setValue]);
@@ -44,7 +44,7 @@ export const SancionForm = ({ onClose, existingSancion }: SancionFormProps) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-4">
         <label htmlFor="competidor" className="block text-sm font-medium text-gray-700 mb-1">Competidor - Dojo - Categoria - Fecha</label>
-        <select {...register('detallecampeonatocategoriacompetidor_id', { required: true })} className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <select {...register('detallecampeonatocategoriacompetidor', { required: true })} className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
           <option value="">Selecciona un competidor</option>
           {competidoresData?.map((competidor) => (
             <option key={competidor.id} value={competidor.id}>
@@ -59,7 +59,7 @@ export const SancionForm = ({ onClose, existingSancion }: SancionFormProps) => {
             </option>
           ))}
         </select>
-        {errors.detallecampeonatocategoriacompetidor_id && <span className="text-red-500 text-xs mt-1">Este campo es requerido</span>}
+        {errors.detallecampeonatocategoriacompetidor && <span className="text-red-500 text-xs mt-1">Este campo es requerido</span>}
       </div>
       <div className="mb-4">
         <label htmlFor="motivo" className="block text-sm font-medium text-gray-700 mb-1">Motivo</label>
