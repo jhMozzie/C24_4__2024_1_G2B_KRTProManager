@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Ciclo4\KrtProManager-Git\C24_4__2024_1_G2B_KRTProManager\krtpromanager-Kotlin\app\src\main\shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Ciclo4\KrtProManager-Git\C24_4__2024_1_G2B_KRTProManager\krtpromanager-Kotlin\app\src\debug\shaders"/></dataSet></merger>
