@@ -6,9 +6,11 @@ import {
   useLocation,
 } from "react-router-dom";
 import { LifeBuoy } from "lucide-react";
-import { FormLogin } from "./components/pages/FormLogin";
+import { FormLogin } from "./pages/FormLogin";
 import Sidebar, { SidebarItem } from "./components/Sidebar";
-import { MyInfo } from "./components/pages/MyInfo";
+import { MyInfo } from "./pages/MyInfo";
+import ListaCampeonatos from "./pages/ListaCampeonatos";
+import { CrudCompetidores } from "./pages/CrudCompetidores";
 
 const App = () => {
   const location = useLocation();
@@ -22,13 +24,23 @@ const App = () => {
       <Sidebar>
         <SidebarItem
           icon={<LifeBuoy size={20} />}
+          text="Informacion Personal"
+          to="/my-info"
+        />
+        <SidebarItem
+          icon={<LifeBuoy size={20} />}
+          text="Campeonatos"
+          to="/campeonatos"
+        />
+        <SidebarItem
+          icon={<LifeBuoy size={20} />}
           text="Competidores"
           to="/competidores"
         />
         <SidebarItem
           icon={<LifeBuoy size={20} />}
-          text="Informacion Personal"
-          to="/my-info"
+          text="Categorias del Campeonato"
+          to="/detallecampeonatocategoria"
         />
       </Sidebar>
       <main className="flex-1 p-4 ml-64">
@@ -36,6 +48,8 @@ const App = () => {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<FormLogin />} />
           <Route path="/my-info" element={<MyInfo />} />
+          <Route path="/campeonatos" element={<ListaCampeonatos />} />
+          <Route path="/competidores" element={<CrudCompetidores />} />
         </Routes>
       </main>
     </div>

@@ -9,6 +9,6 @@ public class DojoDTO {
     private Long id;
     private String nombreDojo;
     private String senseiDojo;
-    private UsuarioDTO usuario;
-    private List<CampeonatoDTO> campeonatos;
+//    private UsuarioDTO usuario;
+//    private List<CampeonatoDTO> campeonatos;
 }

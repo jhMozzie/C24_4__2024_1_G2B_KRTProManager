@@ -23,7 +23,7 @@ public class Dojo {
     @Column(name = "senseiDojo")
     private String senseiDojo;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 

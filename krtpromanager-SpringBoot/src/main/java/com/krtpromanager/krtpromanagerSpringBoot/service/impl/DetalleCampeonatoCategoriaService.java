@@ -34,4 +34,20 @@ public class DetalleCampeonatoCategoriaService implements IDetalleCampeonatoCate
         }
         return response;
     }
+
+    @Override
+    public Response getCategoriasByCampeonato(String nombre) {
+        Response response = new Response();
+        try {
+            List<DetalleCampeonatoCategoria> detalleCampeonatoCategoriaList = detalleCampeonatoCategoriaRepository.findByCampeonatoNombre(nombre);
+            List<DetalleCampeonatoCategoriaDTO> detalleCampeonatoCategoriaDTOList = DetalleCampeonatoCategoriaMapper.mapDetalleCampeonatoCategoriaListToDetalleCampeonatoCategoriaListDTO(detalleCampeonatoCategoriaList);
+            response.setStatusCode(200);
+            response.setMessage("Categorías encontradas exitosamente");
+            response.setDetalleCampeonatoCategoriaList(detalleCampeonatoCategoriaDTOList);
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred: " + e.getMessage());
+        }
+        return response;
+    }
 }
