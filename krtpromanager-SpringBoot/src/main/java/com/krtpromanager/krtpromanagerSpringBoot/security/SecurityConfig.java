@@ -27,14 +27,16 @@ public class SecurityConfig {
     private CustomUserDetailsService customUserDetailsService;
     @Autowired
     private JWTAuthFilter jwtAuthFilter;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.csrf(AbstractHttpConfigurer::disable)
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/auth/**","/dojo/**", "/usuario/**", "/campeonato/**").permitAll()
+                        .requestMatchers("/auth/**", "/dojo/**", "/usuario/**", "/campeonato/**").permitAll()
                         .anyRequest().authenticated())
-                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -55,7 +57,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager  authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 }
